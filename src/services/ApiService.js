@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class ApiService {
-  static BASE_URL = "http://localhost:8090/api";
+  static BASE_URL = "http://localhost:8080/api";
 
   static saveToken(token) {
     localStorage.setItem("token", token);
@@ -202,7 +202,7 @@ export default class ApiService {
   /* MENU SECTION */
 
   static async addMenu(formData) {
-    const resp = await axios.post(`${this.BASE_URL}/menu`, formData, {
+    const resp = await axios.post(`${this.BASE_URL}/menus`, formData, {
       headers: {
         ...this.getHeader(),
         "Content-Type": "multipart/form-data",
@@ -212,7 +212,7 @@ export default class ApiService {
   }
 
   static async updateMenu(formData) {
-    const resp = await axios.put(`${this.BASE_URL}/menu`, formData, {
+    const resp = await axios.put(`${this.BASE_URL}/menus`, formData, {
       headers: {
         ...this.getHeader(),
         "Content-Type": "multipart/form-data",
@@ -222,24 +222,24 @@ export default class ApiService {
   }
 
   static async deleteMenu(id) {
-    const resp = await axios.delete(`${this.BASE_URL}/menu/${id}`, {
+    const resp = await axios.delete(`${this.BASE_URL}/menus/${id}`, {
       headers: this.getHeader(),
     });
     return resp.data;
   }
 
   static async getMenuById(id) {
-    const resp = await axios.get(`${this.BASE_URL}/menu/${id}`);
+    const resp = await axios.get(`${this.BASE_URL}/menus/${id}`);
     return resp.data;
   }
 
   static async getAllMenus() {
-    const resp = await axios.get(`${this.BASE_URL}/menu`, {});
+    const resp = await axios.get(`${this.BASE_URL}/menus`, {});
     return resp.data;
   }
 
   static async getAllMenuByCategoryId(categoryId) {
-    const resp = await axios.get(`${this.BASE_URL}/menu`, {
+    const resp = await axios.get(`${this.BASE_URL}/menus`, {
       params: {
         categoryId: categoryId,
       },
@@ -248,7 +248,7 @@ export default class ApiService {
   }
 
   static async searchMenu(search) {
-    const resp = await axios.get(`${this.BASE_URL}/menu`, {
+    const resp = await axios.get(`${this.BASE_URL}/menus`, {
       params: {
         search: search,
       },
