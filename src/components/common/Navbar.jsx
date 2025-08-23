@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 
 const Navbar = () => {
-  const isAuthenticated = ApiService.isAthenticated();
+  const isAuthenticated = ApiService.isAuthenticated();
   const isAdmin = ApiService.isAdmin();
   const isCustomer = ApiService.isCustomer();
   const isDeliveryPerson = ApiService.isDeliveryPerson();
