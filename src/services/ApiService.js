@@ -29,15 +29,15 @@ export default class ApiService {
   }
 
   static isAdmin() {
-    return this.hadRole("ADMIN");
+    return this.hadRole("ROLE_ADMIN");
   }
 
   static isCustomer() {
-    return this.hadRole("CUSTOMER");
+    return this.hadRole("ROLE_CUSTOMER");
   }
 
   static isDeliveryPerson() {
-    return this.hadRole("DELIVERY");
+    return this.hadRole("ROLE_DELIVERY");
   }
 
   static logout() {
