@@ -329,7 +329,7 @@ export default class ApiService {
     const resp = await axios.post(`${this.BASE_URL}/payments/pay`, body, {
       headers: this.getHeader(),
     });
-    return resp.data; //return the resp containg the stripe transaction id for this transaction
+    return resp.data; 
   }
 
   //TO UPDATE PAYMENT WHEN IT HAS BEEN COMPLETED

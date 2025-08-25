@@ -15,6 +15,7 @@ import OrderHistoryPage from "./components/profile_cart/OrderHistoryPage";
 import { CustomerRoute } from "./services/Guard";
 import LeaveReviewPage from "./components/profile_cart/LeaveReviewPage";
 import CartPage from "./components/profile_cart/CartPage";
+import ProcessPaymentPage from "./components/payment/ProcessPaymentPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/my-order-history" element={<OrderHistoryPage />} />
           <Route path="/leave-review" element={<LeaveReviewPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/pay" element={<ProcessPaymentPage/>}/>
           <Route path="*" element={<Navigate to={"/home"} />} />
         </Routes>
       </div>

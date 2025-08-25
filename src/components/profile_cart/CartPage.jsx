@@ -94,9 +94,7 @@ const CartPage = () => {
     <div className="cart-container">
       <ErrorDisplay />
       {message && <p className="success">{message}</p>}
-
       <h1 className="cart-title">Your Shopping Cart</h1>
-
       <div className="cart-items">
         {cart.cartItems.map((item) => (
           <div key={item.id} className="cart-item">
