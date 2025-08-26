@@ -18,6 +18,7 @@ import CartPage from "./components/profile_cart/CartPage";
 import ProcessPaymentPage from "./components/payment/ProcessPaymentPage";
 import AdminLayout from "./components/admin/navbar/AdminLayout";
 import AdminCategoriesPage from "./components/admin/AdminCategoriesPage";
+import AdminCategoryFormPage from "./components/admin/AdminCategoryFormPage";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
           {/* Admin Route */}
           <Route path="/admin"  element={<AdminRoute element={<AdminLayout/>}/>} >
             <Route path="categories" element={<AdminCategoriesPage/>}/>
+            <Route path="categories/new" element={<AdminCategoryFormPage/>}/>
+            <Route path="categories/edit':id'" element={<AdminCategoryFormPage/>}/>
           </Route>
           
 
