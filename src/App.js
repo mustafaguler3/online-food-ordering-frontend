@@ -12,10 +12,12 @@ import MenuDetailsPage from "./components/home_menu/MenuDetailsPage";
 import ProfilePage from "./components/profile_cart/ProfilePage";
 import UpdateProfilePage from "./components/profile_cart/UpdateProfilePage";
 import OrderHistoryPage from "./components/profile_cart/OrderHistoryPage";
-import { CustomerRoute } from "./services/Guard";
+import { AdminRoute, CustomerRoute } from "./services/Guard";
 import LeaveReviewPage from "./components/profile_cart/LeaveReviewPage";
 import CartPage from "./components/profile_cart/CartPage";
 import ProcessPaymentPage from "./components/payment/ProcessPaymentPage";
+import AdminLayout from "./components/admin/navbar/AdminLayout";
+import AdminCategoriesPage from "./components/admin/AdminCategoriesPage";
 
 function App() {
   return (
@@ -37,6 +39,14 @@ function App() {
           <Route path="/leave-review" element={<LeaveReviewPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/pay" element={<ProcessPaymentPage/>}/>
+
+          {/* Admin Route */}
+          <Route path="/admin"  element={<AdminRoute element={<AdminLayout/>}/>} >
+            <Route path="categories" element={<AdminCategoriesPage/>}/>
+          </Route>
+          
+
+
           <Route path="*" element={<Navigate to={"/home"} />} />
         </Routes>
       </div>

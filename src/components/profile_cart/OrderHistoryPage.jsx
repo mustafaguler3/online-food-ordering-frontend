@@ -1,19 +1,24 @@
 import { useState, useEffect } from "react";
-import ApiService from "../../services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
+import ApiService from "../../services/ApiService"
+import ClipLoader from "react-spinners/ClipLoader";
 
 const OrderHistoryPage = () => {
-  const [orders, setOrders] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        
         const response = await ApiService.getMyOrders();
         if (response.statusCode === 200) {
           const enhancedOrders = [];
+          console.log("Response order : " ,response.data.data)
           for (const order of response.data) {
             const enhancedItems = [];
             for (const item of order.orderItems) {
@@ -35,7 +40,9 @@ const OrderHistoryPage = () => {
         }
       } catch (error) {
         showError(error.response?.data?.message || error.message);
-      }
+      } finally {
+        setLoading(false);
+    }
     };
 
     fetchOrders();
@@ -56,6 +63,19 @@ const OrderHistoryPage = () => {
   const handleLeaveReview = (orderId, menuId) => {
     navigate(`/leave-review?orderId=${orderId}&menuId=${menuId}`);
   };
+
+  if (loading) {
+  return (
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh"
+    }}>
+      <ClipLoader color="#6c63ff" size={60} />
+    </div>
+  );
+}
 
   if (!orders || orders.length === 0) {
     return (
