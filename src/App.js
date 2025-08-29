@@ -23,6 +23,7 @@ import AdminMenuPage from "./components/admin/AdminMenuPage";
 import AdminMenuFormPage from "./components/admin/AdminMenuFormPage";
 import AdminOrdersPage from "./components/admin/AdminOrdersPage";
 import AdminOrderDetailPage from "./components/admin/AdminOrderDetailPage";
+import AdminPaymentsPage from "./components/admin/AdminPaymentsPage";
 
 function App() {
   return (
@@ -56,6 +57,8 @@ function App() {
 
             <Route path="orders" element={<AdminOrdersPage/>}/>
             <Route path="orders/:id" element={<AdminOrderDetailPage/>}/>
+
+            <Route path="payments" element={<AdminPaymentsPage/>}/>
           </Route>
           
 
