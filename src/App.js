@@ -22,6 +22,7 @@ import AdminCategoryFormPage from "./components/admin/AdminCategoryFormPage";
 import AdminMenuPage from "./components/admin/AdminMenuPage";
 import AdminMenuFormPage from "./components/admin/AdminMenuFormPage";
 import AdminOrdersPage from "./components/admin/AdminOrdersPage";
+import AdminOrderDetailPage from "./components/admin/AdminOrderDetailPage";
 
 function App() {
   return (
@@ -52,7 +53,9 @@ function App() {
             <Route path="menu-items" element={<AdminMenuPage/>}/>
             <Route path="menu-items/new" element={<AdminMenuPage/>}/>
             <Route path="menu-items/edit/:id" element={<AdminMenuFormPage/>}/>
+
             <Route path="orders" element={<AdminOrdersPage/>}/>
+            <Route path="orders/:id" element={<AdminOrderDetailPage/>}/>
           </Route>
           
 
