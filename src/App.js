@@ -20,6 +20,7 @@ import AdminLayout from "./components/admin/navbar/AdminLayout";
 import AdminCategoriesPage from "./components/admin/AdminCategoriesPage";
 import AdminCategoryFormPage from "./components/admin/AdminCategoryFormPage";
 import AdminMenuPage from "./components/admin/AdminMenuPage";
+import AdminMenuFormPage from "./components/admin/AdminMenuFormPage";
 
 function App() {
   return (
@@ -46,8 +47,10 @@ function App() {
           <Route path="/admin"  element={<AdminRoute element={<AdminLayout/>}/>} >
             <Route path="categories" element={<AdminCategoriesPage/>}/>
             <Route path="categories/new" element={<AdminCategoryFormPage/>}/>
-            <Route path="categories/edit':id'" element={<AdminCategoryFormPage/>}/>
+            <Route path="categories/edit/:id" element={<AdminCategoryFormPage/>}/>
             <Route path="menu-items" element={<AdminMenuPage/>}/>
+            <Route path="menu-items/new" element={<AdminMenuPage/>}/>
+            <Route path="menu-items/edit/:id" element={<AdminMenuFormPage/>}/>
           </Route>
           
 

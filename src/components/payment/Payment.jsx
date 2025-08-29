@@ -9,7 +9,6 @@ import {
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 
-// Load Stripe with your publishable key
 const stripeInstance = loadStripe(
   ""
 );
