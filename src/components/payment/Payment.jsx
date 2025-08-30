@@ -10,7 +10,7 @@ import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 
 const stripeInstance = loadStripe(
-  ""
+  "pk_test_51LIGm5BJk0ZaKsmdyq1YUjfgcwEADWfhWcNTIMKWIv8LFk5XTq7its8TPtXRqWI2qXRJdyHUIAV4IMXUCqlwMDxU00xHqpGRcD"
 );
 
 const PaymentForm = ({ amount, orderId, onSuccess }) => {

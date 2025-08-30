@@ -18,7 +18,7 @@ const OrderHistoryPage = () => {
         const response = await ApiService.getMyOrders();
         if (response.statusCode === 200) {
           const enhancedOrders = [];
-          console.log("Response order : " ,response.data.data)
+          console.log("Response order : " ,response.data)
           for (const order of response.data) {
             const enhancedItems = [];
             for (const item of order.orderItems) {

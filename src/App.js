@@ -25,6 +25,8 @@ import AdminOrdersPage from "./components/admin/AdminOrdersPage";
 import AdminOrderDetailPage from "./components/admin/AdminOrderDetailPage";
 import AdminPaymentsPage from "./components/admin/AdminPaymentsPage";
 import AdminPaymentDetailPage from "./components/admin/AdminPaymentDetailPage";
+import AdminDashboardPage from "./components/admin/AdminDashboardPage";
+import AdminUserRegistration from "./components/auth/AdminUserRegistration";
 
 function App() {
   return (
@@ -61,6 +63,9 @@ function App() {
 
             <Route path="payments" element={<AdminPaymentsPage/>}/>
             <Route path="payments/:id" element={<AdminPaymentDetailPage/>}/>
+
+            <Route index element={<AdminDashboardPage />}/>
+            <Route path="register" element={<AdminUserRegistration/>} />
           </Route>
           
 
