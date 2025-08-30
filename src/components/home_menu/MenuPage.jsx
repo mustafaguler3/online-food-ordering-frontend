@@ -86,7 +86,7 @@ const MenuPage = () => {
             key={item.id}
           >
             <img
-              src={item.imageUrl}
+              src={process.env.PUBLIC_URL + item.imageUrl}
               alt={item.name}
               className="menu-item-image"
             />
