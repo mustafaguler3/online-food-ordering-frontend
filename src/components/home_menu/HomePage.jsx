@@ -23,7 +23,7 @@ const HomePage = () => {
     };
 
     fetchCategories();
-  }, []);
+  }, [showError]);
 
   const handleCategoryClick = (categoryId) => {
     navigate(`/menu?category=${categoryId}`);

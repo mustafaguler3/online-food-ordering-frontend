@@ -18,6 +18,7 @@ const AdminCategoryFormPage = () => {
     if (id) {
       fetchCategory();
     }
+  // eslint-disable-next-line no-use-before-define, react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchCategory = async () => {

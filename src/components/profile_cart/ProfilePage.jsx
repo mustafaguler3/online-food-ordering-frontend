@@ -20,7 +20,7 @@ const ProfilePage = () => {
       }
     };
     fetchUserProfile();
-  }, []);
+  }, [showError]);
 
   const navigateToEditPage = () => {
     navigate("/update");

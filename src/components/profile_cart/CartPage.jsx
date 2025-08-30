@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 
@@ -25,6 +25,7 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCart();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleIncrement = async (menuId) => {

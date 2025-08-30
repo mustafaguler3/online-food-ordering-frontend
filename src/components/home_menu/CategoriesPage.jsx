@@ -22,6 +22,7 @@ const CategoriesPage = () => {
       }
     };
     fetchCategories();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCategoryClick = (categoryId) => {

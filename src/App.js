@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
@@ -12,7 +12,7 @@ import MenuDetailsPage from "./components/home_menu/MenuDetailsPage";
 import ProfilePage from "./components/profile_cart/ProfilePage";
 import UpdateProfilePage from "./components/profile_cart/UpdateProfilePage";
 import OrderHistoryPage from "./components/profile_cart/OrderHistoryPage";
-import { AdminRoute, CustomerRoute } from "./services/Guard";
+import { AdminRoute } from "./services/Guard";
 import LeaveReviewPage from "./components/profile_cart/LeaveReviewPage";
 import CartPage from "./components/profile_cart/CartPage";
 import ProcessPaymentPage from "./components/payment/ProcessPaymentPage";

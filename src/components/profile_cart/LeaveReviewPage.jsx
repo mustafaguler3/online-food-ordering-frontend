@@ -34,7 +34,7 @@ const LeaveReviewPage = () => {
     } else {
       showError("No Menu Item specified");
     }
-  }, [menuId]);
+  }, [menuId,showError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

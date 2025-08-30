@@ -12,6 +12,7 @@ const AdminPaymentDetailPage = () => {
 
   useEffect(() => {
     fetchPayment();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchPayment = async () => {

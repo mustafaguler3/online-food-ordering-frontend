@@ -33,7 +33,7 @@ const ProcessPaymentPage = () => {
       orderId: orderId,
       amount: amount,
     });
-  }, [searchParams]);
+  }, [searchParams, showError]);
 
   const handlePaymentSuccess = (paymentIntent) => {
     console.log("Payment succeeded:", paymentIntent);

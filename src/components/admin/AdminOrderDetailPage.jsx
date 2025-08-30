@@ -12,6 +12,7 @@ const AdminOrderDetailPage = () => {
 
   useEffect(() => {
     fetchOrder();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchOrder = async () => {

@@ -36,7 +36,7 @@ const UpdateProfilePage = () => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [showError]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

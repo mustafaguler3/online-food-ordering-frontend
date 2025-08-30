@@ -25,6 +25,7 @@ const AdminMenuFormPage = () => {
     if (id) {
       fetchMenu();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   //FETCH ALL CATEGORIES
