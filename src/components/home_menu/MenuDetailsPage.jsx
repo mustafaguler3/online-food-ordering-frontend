@@ -104,7 +104,7 @@ const MenuDetailsPage = () => {
         <div className="menu-item-header">
           <div className="menu-item-image-container">
             <img
-              src={`http://localhost:8080/`+menu.imageUrl}
+              src={`/`+menu.imageUrl}
               alt={menu.name}
               className="menu-item-image-detail"
             />
