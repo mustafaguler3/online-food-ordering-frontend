@@ -46,7 +46,8 @@ const OrderHistoryPage = () => {
     };
 
     fetchOrders();
-  }, [showError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

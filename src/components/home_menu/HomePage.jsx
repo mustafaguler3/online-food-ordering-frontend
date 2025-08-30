@@ -23,7 +23,8 @@ const HomePage = () => {
     };
 
     fetchCategories();
-  }, [showError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleCategoryClick = (categoryId) => {
     navigate(`/menu?category=${categoryId}`);

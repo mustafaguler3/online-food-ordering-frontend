@@ -36,7 +36,8 @@ const UpdateProfilePage = () => {
     };
 
     fetchUserProfile();
-  }, [showError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

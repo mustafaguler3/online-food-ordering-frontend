@@ -20,7 +20,8 @@ const ProfilePage = () => {
       }
     };
     fetchUserProfile();
-  }, [showError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigateToEditPage = () => {
     navigate("/update");
