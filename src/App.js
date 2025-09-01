@@ -27,10 +27,12 @@ import AdminPaymentsPage from "./components/admin/AdminPaymentsPage";
 import AdminPaymentDetailPage from "./components/admin/AdminPaymentDetailPage";
 import AdminDashboardPage from "./components/admin/AdminDashboardPage";
 import AdminUserRegistration from "./components/auth/AdminUserRegistration";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   return (
-    <BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
       <Navbar />
       <div className="content">
         <Routes>
@@ -75,6 +77,7 @@ function App() {
       </div>
       <Footer />
     </BrowserRouter>
+    </CartProvider>
   );
 }
 

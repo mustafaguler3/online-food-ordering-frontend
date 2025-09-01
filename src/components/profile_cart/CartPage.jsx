@@ -2,26 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import { useCart } from "../../context/CartContext";
 
 const CartPage = () => {
-  const [cart, setCart] = useState(null);
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
-
+  const { fetchCart,cart } = useCart();
   const [message, setMessage] = useState(null);
 
-  const fetchCart = async () => {
-    try {
-      const response = await ApiService.getCart();
-      if (response.statusCode === 200) {
-        setCart(response.data);
-      } else {
-        showError(response.message);
-      }
-    } catch (error) {
-      showError(error.response?.data?.message || error.message);
-    }
-  };
 
   useEffect(() => {
     fetchCart();
