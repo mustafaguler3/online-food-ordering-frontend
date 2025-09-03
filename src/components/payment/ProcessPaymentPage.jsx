@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
@@ -33,13 +34,10 @@ const ProcessPaymentPage = () => {
       orderId: orderId,
       amount: amount,
     });
-  }, [searchParams, showError]);
+  }, [searchParams]);
 
   const handlePaymentSuccess = (paymentIntent) => {
-    console.log("Payment succeeded:", paymentIntent);
-
     setPaymentCompleted(true);
-
     setTimeout(() => {
       navigate("/my-order-history");
     }, 8000);
@@ -58,9 +56,6 @@ const ProcessPaymentPage = () => {
   return (
     <div className="checkout-container">
       <ErrorDisplay />
-
-      {/* <h1>Food App</h1> */}
-
       <Payment
         amount={orderDetails.amount}
         orderId={orderDetails.orderId}

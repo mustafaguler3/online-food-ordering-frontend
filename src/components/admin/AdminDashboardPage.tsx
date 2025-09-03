@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
-import { useError } from "../common/ErrorDisplay";
 
 import { Pie, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { useError } from "../common/ErrorDisplay";
+import orderService from "../../services/orderService";
+import menuService from "../../services/menuService";
+import paymentService from "../../services/paymentService";
 
 Chart.register(...registerables);
 
@@ -31,18 +34,19 @@ const AdminDashboardPage = () => {
   const fetchDashboardData = async () => {
     try {
       // Fetch all necessary data from backend
-      const ordersResponse = await ApiService.getAllOrders();
-      const menuResponse = await ApiService.getAllMenus();
-      const paymentsResponse = await ApiService.getAllPayments();
+      const ordersResponse = await orderService.getOrders();
+      const menuResponse = await menuService.getMenus();
+      const paymentsResponse = await paymentService.getPayments();
+
       const activeCustomerResponse =
         await ApiService.countTotalActiveCustomers();
 
       const activeCustomers = activeCustomerResponse.data;
 
       if (
-        ordersResponse.statusCode === 200 &&
-        menuResponse.statusCode === 200 &&
-        paymentsResponse.statusCode === 200
+        ordersResponse.status === 200 &&
+        menuResponse.status === 200 &&
+        paymentsResponse.status === 200
       ) {
         const orders = ordersResponse.data.content;
         const menu = menuResponse.data;
@@ -70,8 +74,9 @@ const AdminDashboardPage = () => {
           });
         });
 
-        const popularItems = Object.entries(itemCounts)
-          .sort((a, b) => b[1] - a[1])
+        const popularItems = 
+        Object.entries(itemCounts)
+          .sort((a:any, b:any) => b[1] - a[1])
           .slice(0, 5);
 
         //total revenue calculation

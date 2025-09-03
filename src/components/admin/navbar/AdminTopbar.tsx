@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../../../services/ApiService";
 import { useError } from "../../common/ErrorDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
+import { AuthHelper } from "../../../helpers/AuthHelper";
+import userService from "../../../services/userService";
 
 const AdminTopbar = () => {
   const navigate = useNavigate();
@@ -13,8 +14,8 @@ const AdminTopbar = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await ApiService.myProfile();
-        if (response.statusCode === 200) {
+        const response = await userService.myProfile();
+        if (response.status === 200) {
           setUserProfile(response.data);
         }
       } catch (error) {
@@ -26,7 +27,7 @@ const AdminTopbar = () => {
   }, [showError]);
 
   const handleLogout = () => {
-    ApiService.logout();
+    AuthHelper.logout();
     navigate("/login");
   };
 

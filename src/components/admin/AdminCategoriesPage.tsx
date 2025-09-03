@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import { Category } from "../../models/Category";
 
 const AdminCategoriesPage = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const AdminCategoriesPage = () => {
       if (response.statusCode === 200) {
         setCategories(response.data);
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
@@ -28,18 +29,18 @@ const AdminCategoriesPage = () => {
     navigate("/admin/categories/new");
   };
 
-  const handleEditCategory = (id) => {
+  const handleEditCategory = (id: number) => {
     navigate(`/admin/categories/edit/${id}`);
   };
 
-  const handleDeleteCategory = async (id) => {
+  const handleDeleteCategory = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
         const response = await ApiService.deleteCategory(id);
         if (response.statusCode === 200) {
           fetchCategories();
         }
-      } catch (error) {
+      } catch (error: any) {
         showError(error.response?.data?.message || error.message);
       }
     }

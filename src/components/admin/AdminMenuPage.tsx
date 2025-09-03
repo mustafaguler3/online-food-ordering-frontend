@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import menuService from "../../services/menuService";
+import { Menu } from "../../models/Menu";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AdminMenuPage = () => {
-  const [menus, setMenus] = useState([]);
+  const [menus, setMenus] = useState<Menu[]>([]);
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
 
@@ -17,8 +19,8 @@ const AdminMenuPage = () => {
 
   const fetchMenus = async () => {
     try {
-      const response = await ApiService.getAllMenus();
-      if (response.statusCode === 200) {
+      const response = await menuService.getMenus()
+      if (response.status === 200) {
         setMenus(response.data);
       }
     } catch (error) {

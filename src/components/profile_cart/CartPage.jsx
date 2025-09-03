@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
@@ -13,9 +14,25 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCart();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+ const handleCheckout = async () => {
+    try {
+      const response = await ApiService.placeOrder();
+      if (response.statusCode === 200) {
+        setMessage(response.message);
+
+        setTimeout(() => {
+          setMessage(null);
+          fetchCart();
+          navigate("/my-order-history");
+        }, 5000);
+      }
+      
+    } catch (error) {
+      showError(error.response?.data?.message || error.message);
+    }
+  };
   const handleIncrement = async (menuId) => {
     try {
       const response = await ApiService.incrementItem(menuId);
@@ -49,21 +66,7 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      const response = await ApiService.placeOrder();
-      if (response.statusCode === 200) {
-        setMessage(response.message);
-        setTimeout(() => {
-          setMessage(null);
-          fetchCart();
-          navigate("/my-order-history");
-        }, 5000);
-      }
-    } catch (error) {
-      showError(error.response?.data?.message || error.message);
-    }
-  };
+ 
 
   if (!cart || cart.cartItems.length === 0) {
     return (

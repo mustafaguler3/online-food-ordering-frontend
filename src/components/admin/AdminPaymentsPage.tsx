@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import { Payment } from "../../models/Payment";
 
 const AdminPaymentsPage = () => {
-  const [payments, setPayments] = useState([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
   const [filter, setFilter] = useState("all");
 
   const { ErrorDisplay, showError } = useError();
@@ -23,7 +24,7 @@ const AdminPaymentsPage = () => {
         let filteredPayments = response.data;
 
         if (filter !== "all") {
-          filteredPayments = filteredPayments.filter((p) =>
+          filteredPayments = filteredPayments.filter((p:any) =>
             filter === "completed"
               ? p.paymentStatus === "COMPLETED"
               : filter === "pending"
@@ -35,12 +36,12 @@ const AdminPaymentsPage = () => {
         }
         setPayments(filteredPayments);
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const handleViewPayment = (id) => {
+  const handleViewPayment = (id:number) => {
     navigate(`/admin/payments/${id}`);
   };
 

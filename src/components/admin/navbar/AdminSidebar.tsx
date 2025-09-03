@@ -6,6 +6,7 @@ import {
   faUtensils,
   faShoppingBag,
   faCreditCard,
+  faPerson,
 } from "@fortawesome/free-solid-svg-icons";
 
 const AdminSidebar = () => {
@@ -69,6 +70,18 @@ const AdminSidebar = () => {
             >
               <FontAwesomeIcon icon={faCreditCard} />
               <span>Payments</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/admin/users"
+              className={
+                location.pathname.includes("/admin/users") ? "active" : ""
+              }
+            >
+              <FontAwesomeIcon icon={faPerson} />
+              <span>Users</span>
             </NavLink>
           </li>
         </ul>

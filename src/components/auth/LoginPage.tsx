@@ -2,6 +2,8 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import { useState } from "react";
 import ApiService from "../../services/ApiService";
+import authService from "../../services/authService";
+import { AuthHelper } from "../../helpers/AuthHelper";
 
 const LoginPage = () => {
   const { ErrorDisplay, showError } = useError();
@@ -27,13 +29,13 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await ApiService.loginUser(formData);
-      if (response.statusCode === 200) {
-        ApiService.saveToken(response.data.token);
-        ApiService.saveRole(response.data.roles);
+      const response = await authService.login(formData);
+      if (response.status === 200) {
+        AuthHelper.saveToken(response.data.token);
+        AuthHelper.saveRole(response.data.roles);
         navigate(redirectPath, { replace: true });
       } else {
-        showError(response.message);
+        showError(response);
       }
     } catch (error) {
       showError(error.response?.data?.message || error.message);

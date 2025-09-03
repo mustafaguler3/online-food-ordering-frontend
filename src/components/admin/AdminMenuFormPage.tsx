@@ -11,6 +11,7 @@ const AdminMenuFormPage = () => {
   const [menu, setMenu] = useState({
     name: "",
     description: "",
+    imageUrl: "",
     price: "",
     categoryId: "",
     imageFile: null,
@@ -35,7 +36,7 @@ const AdminMenuFormPage = () => {
       if (response.statusCode === 200) {
         setCategories(response.data);
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     }
   };
@@ -51,21 +52,21 @@ const AdminMenuFormPage = () => {
           categoryId: response.data.categoryId.toString(),
         });
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setMenu((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     setMenu((prev) => ({ ...prev, imageFile: e.target.files[0] }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -91,7 +92,7 @@ const AdminMenuFormPage = () => {
       if (response.statusCode === 200) {
         navigate("/admin/menu-items");
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     } finally {
       setIsSubmitting(false);
@@ -131,7 +132,7 @@ const AdminMenuFormPage = () => {
             name="description"
             value={menu.description}
             onChange={handleInputChange}
-            rows="4"
+            rows={4}
           />
         </div>
 

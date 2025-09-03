@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay"; // import custom error hook
+import { AuthHelper } from "../../helpers/AuthHelper";
+import menuService from "../../services/menuService";
 
 const MenuDetailsPage = () => {
   const { id } = useParams();
@@ -11,14 +13,14 @@ const MenuDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [cartSuccess, setCartSuccess] = useState(false);
 
-  const isAuthenticated = ApiService.isAuthenticated();
+  const isAuthenticated = AuthHelper.isAuthenticated();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await ApiService.getMenuById(id);
-        if (response.statusCode === 200) {
+        const response = await menuService.getMenuById(id);
+        if (response.status === 200) {
           setMenu(response.data);
 
           // Fetch average rating
@@ -29,7 +31,7 @@ const MenuDetailsPage = () => {
             setAverageRating(ratingResponse.data);
           }
         } else {
-          showError(response.message);
+          showError(response);
         }
       } catch (error) {
         showError(error.response?.data?.message || error.message);

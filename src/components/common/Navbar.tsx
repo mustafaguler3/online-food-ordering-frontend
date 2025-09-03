@@ -1,23 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, Link } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { ShoppingCart } from "lucide-react";
-import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import { useCart } from "../../context/CartContext";
+import { useEffect } from "react";
+import { AuthHelper } from "../../helpers/AuthHelper";
 
 const Navbar = () => {
-  const { cartItemCount } = useCart();
+  const { fetchCart, cartItemCount } = useCart();
 
-  const isAuthenticated = ApiService.isAuthenticated();
-  const isAdmin = ApiService.isAdmin();
-  const isCustomer = ApiService.isCustomer();
-  const isDeliveryPerson = ApiService.isDeliveryPerson();
+  const isAuthenticated = AuthHelper.isAuthenticated();
+  const isAdmin = AuthHelper.isAdmin();
+  const isCustomer = AuthHelper.isCustomer();
+  const isDeliveryPerson = AuthHelper.isDeliveryPerson();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCart()
+  },[])
 
   const handleLogout = () => {
     const isLogout = window.confirm("Are you sure you want to logout?");
     if (isLogout) {
-      ApiService.logout();
+      AuthHelper.logout();
       navigate("/login");
     }
   };
@@ -44,17 +49,20 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             {isCustomer &&
-              ((
+              (
+                <>
                 <Link to="/orders" className="nav-link">
                   Orders
                 </Link>
-              ),
-              (
+              
+              
                 <Link to="/cart" className="nav-link">
                   <ShoppingCart size={25} />
                   <Badge badgeContent={cartItemCount} color="secondary"></Badge>
                 </Link>
-              ))}
+                </>
+                
+              )}
             {isDeliveryPerson && (
               <Link to="/deliveries" className="nav-link">
                 Deliveries

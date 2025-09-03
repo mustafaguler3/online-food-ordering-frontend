@@ -1,32 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import categoryService from "../../services/categoryService";
+import { Category } from "../../models/Category";
 import { useError } from "../common/ErrorDisplay";
-import ApiService from "../../services/ApiService";
 
 const HomePage = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await ApiService.getAllCategories();
-        if (response.statusCode === 200) {
+        const response = await categoryService.getCategories();
+        if (response.status === 200) {
           setCategories(response.data);
         } else {
-          showError(response.message);
+          showError(response.statusText);
         }
-      } catch (error) {
+      } catch (error: any) {
         showError(error.response?.data?.message || error.message);
       }
     };
 
     fetchCategories();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCategoryClick = (categoryId) => {
+  const handleCategoryClick = (categoryId: number) => {
     navigate(`/menu?category=${categoryId}`);
   };
 

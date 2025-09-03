@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const ErrorDisplay = ({ message, onDismiss }) => {
+const ErrorDisplay = ({ message, onDismiss }: any) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,7 +24,7 @@ const ErrorDisplay = ({ message, onDismiss }) => {
 export const useError = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const showError = (message) => {
+  const showError = (message: any) => {
     setErrorMessage(message);
   };
   const dismissError = () => {

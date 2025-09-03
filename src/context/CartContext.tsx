@@ -1,21 +1,28 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import ApiService from "../services/ApiService";
+import { cartService } from "../services/cartService";
 
-const CartContext = createContext();
+interface CartContextType {
+  cart: any | null;
+  cartItemCount: number;
+  setCartItemCount: React.Dispatch<React.SetStateAction<number>>;
+  fetchCart: () => Promise<void>;
+}
+
+const CartContext = createContext<CartContextType | null>(null)
 
 export function CartProvider({ children }) {
+
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cart, setCart] = useState(null);
 
-  async function fetchCart() {
+  const fetchCart = async () => {
     try {
-      const response = await ApiService.getCart();
+      const response = await cartService.getCart();
       const count = response.data.cartItems.reduce(
         (sum, item) => sum + item.quantity,
         0
       );
-
-      setCart(response.data)
+      setCart(response.data);
       setCartItemCount(count);
     } catch (err) {
       console.error("Failed to fetch cart", err);
@@ -29,7 +36,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cartItemCount, setCartItemCount, fetchCart ,cart}}
+      value={{ cartItemCount, setCartItemCount, fetchCart, cart }}
     >
       {children}
     </CartContext.Provider>
@@ -37,5 +44,9 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 }

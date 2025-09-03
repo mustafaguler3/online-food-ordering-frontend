@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import { Payment } from "../../models/Payment";
 
 const AdminPaymentDetailPage = () => {
   const { id } = useParams();
-  const [payment, setPayment] = useState(null);
+  const [payment, setPayment] = useState<Payment>();
 
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const AdminPaymentDetailPage = () => {
       if (response.statusCode === 200) {
         setPayment(response.data);
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     }
   };

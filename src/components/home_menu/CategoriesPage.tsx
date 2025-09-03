@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import ApiService from "../../services/ApiService";
+import categoryService from "../../services/categoryService";
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
@@ -11,11 +12,11 @@ const CategoriesPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await ApiService.getAllCategories();
-        if (response.statusCode === 200) {
+        const response = await categoryService.getCategories()
+        if (response.status === 200) {
           setCategories(response.data);
         } else {
-          showError(response.message);
+          showError(response);
         }
       } catch (error) {
         showError(error.response?.data?.message || error.message);

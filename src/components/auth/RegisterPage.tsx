@@ -2,6 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import { useState } from "react";
 import ApiService from "../../services/ApiService";
+import authService from "../../services/authService";
 
 const RegisterPage = () => {
   const { ErrorDisplay, showError } = useError();
@@ -52,8 +53,8 @@ const RegisterPage = () => {
     };
 
     try {
-      const response = await ApiService.registerUser(registrationData);
-      if (response.statusCode === 200) {
+      const response = await authService.register(registrationData);
+      if (response.status === 200) {
         setFormData({
           name: "",
           email: "",
@@ -64,7 +65,7 @@ const RegisterPage = () => {
         });
         navigate("/login");
       } else {
-        showError(response.message);
+        showError(response);
       }
     } catch (error) {
       showError(error.response?.data?.message || error.message);

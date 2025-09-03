@@ -27,17 +27,17 @@ const AdminCategoryFormPage = () => {
       if (response.statusCode === 200) {
         setCategory(response.data);
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setCategory((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     try {
@@ -50,7 +50,7 @@ const AdminCategoryFormPage = () => {
       if (response.statusCode === 200) {
         navigate("/admin/categories");
       }
-    } catch (error) {
+    } catch (error:any) {
       showError(error.response?.data?.message || error.message);
     }
   };
@@ -87,7 +87,7 @@ const AdminCategoryFormPage = () => {
             name="description"
             value={category.description}
             onChange={handleInputChange}
-            rows="4"
+            rows={4}
           />
         </div>
 

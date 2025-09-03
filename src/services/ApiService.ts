@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class ApiService {
-  static BASE_URL = "http://localhost:8081/api"
+  static BASE_URL = "http://localhost:8081/api";
 
   static saveToken(token) {
     localStorage.setItem("token", token);
@@ -329,7 +329,7 @@ export default class ApiService {
     const resp = await axios.post(`${this.BASE_URL}/payments/pay`, body, {
       headers: this.getHeader(),
     });
-    return resp.data; 
+    return resp.data;
   }
 
   //TO UPDATE PAYMENT WHEN IT HAS BEEN COMPLETED
@@ -353,4 +353,6 @@ export default class ApiService {
     });
     return resp.data;
   }
+
+  static async 
 }

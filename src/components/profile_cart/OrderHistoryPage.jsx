@@ -1,52 +1,50 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
-import ApiService from "../../services/ApiService"
+import ApiService from "../../services/ApiService";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        
         const response = await ApiService.getMyOrders();
-        if (response.statusCode === 200) {
-          const enhancedOrders = [];
-          console.log("Response order : " ,response.data)
-          for (const order of response.data) {
-            const enhancedItems = [];
-            for (const item of order.orderItems) {
-              const itemResponse = await ApiService.getOrderItemById(item.id);
-              if (itemResponse.statusCode === 200) {
-                enhancedItems.push({
-                  ...item,
-                  hasReview: itemResponse.data.menu.reviews.some(
-                    (review) => review.orderId === order.id
-                  ),
-                });
-              } else {
-                enhancedItems.push(item);
-              }
+        const enhancedOrders = [];
+        console.log("Response order : ", response.data);
+        for (const order of response.data) {
+          const enhancedItems = [];
+          console.log("Response order data: ", order);
+          for (const item of order.orderItems) {
+            const itemResponse = await ApiService.getOrderItemById(item.id);
+            if (itemResponse.statusCode === 200) {
+              enhancedItems.push({
+                ...item,
+                hasReview: itemResponse.data.menu.reviews.some(
+                  (review) => review.orderId === order.id
+                ),
+              });
+            } else {
+              enhancedItems.push(item);
             }
-            enhancedOrders.push({ ...order, orderItems: enhancedItems });
           }
-          setOrders(enhancedOrders);
+          enhancedOrders.push({ ...order, orderItems: enhancedItems });
         }
+        setOrders(enhancedOrders);
+        console.log("Enhanced Orders: ", enhancedOrders);
       } catch (error) {
         showError(error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
-    }
+      }
     };
 
     fetchOrders();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const formatDate = (dateString) => {
@@ -66,17 +64,19 @@ const OrderHistoryPage = () => {
   };
 
   if (loading) {
-  return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh"
-    }}>
-      <ClipLoader color="#6c63ff" size={60} />
-    </div>
-  );
-}
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <ClipLoader color="#6c63ff" size={60} />
+      </div>
+    );
+  }
 
   if (!orders || orders.length === 0) {
     return (

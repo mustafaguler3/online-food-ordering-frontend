@@ -69,9 +69,10 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
           transactionId: paymentIntent.id,
           success: true,
         }); 
-
         onSuccess(paymentIntent);
+        
         return res;
+        
       } else {
         // Step 3: Update backend with payment completion
         const res = await ApiService.updateOrderPayment({
@@ -109,8 +110,6 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
 };
 
 const Payment = ({ amount, orderId, onSuccess }) => {
-  console.log("Amount to pay in usd: " + amount);
-
   return (
     <div className="payment-container">
       <h2>Complete Payment</h2>

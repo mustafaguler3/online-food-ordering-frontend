@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 import { useError } from '../common/ErrorDisplay';
+import authService from '../../services/authService';
 
 
 const AdminUserRegistration = () => {
@@ -55,15 +56,15 @@ const AdminUserRegistration = () => {
         }
 
         try {
-            const response = await ApiService.registerUser(formData);
-            if (response.statusCode === 200) {
+            const response = await authService.register(formData);
+            if (response.status === 200) {
                 setFormData({
                     name: '', email: '', password: '', 
                     phoneNumber: '', address: '', roles: []
                 });
                 navigate('/admin'); // Redirect to admin page
             } else {
-                showError(response.message);
+                showError(response);
             }
         } catch (error) {
             showError(error.response?.data?.message || error.message || 'Registration failed');

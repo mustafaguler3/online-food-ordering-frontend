@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import orderService from "../../services/orderService";
+import { Order } from "../../models/Order";
 
 const AdminOrdersPage = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [filter, setFilter] = useState("all");
 
   const { ErrorDisplay, showError } = useError();
@@ -17,19 +18,19 @@ const AdminOrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await ApiService.getAllOrders(
+      const response = await orderService.getOrders(
         filter === "all" ? null : filter
       );
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         setOrders(response.data.content);
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const handleViewOrder = (id) => {
+  const handleViewOrder = (id: number) => {
     navigate(`/admin/orders/${id}`);
   };
 

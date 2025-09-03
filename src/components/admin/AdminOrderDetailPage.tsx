@@ -1,32 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import { Order } from '../../models/Order';
+import orderService from "../../services/orderService";
 
 const AdminOrderDetailPage = () => {
   const { id } = useParams();
-  const [order, setOrder] = useState(null);
+  const [order, setOrder] = useState<Order>();
 
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrder();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchOrder = async () => {
     try {
-      const response = await ApiService.getOrderById(id);
-      if (response.statusCode === 200) {
+      const response = await orderService.getOrderById(id)
+      if (response.status === 200) {
         setOrder(response.data);
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const handleUpdateStatus = async (newStatus) => {
+  const handleUpdateStatus = async (newStatus: any) => {
     try {
       const response = await ApiService.updateOrderStatus({
         id: id,
@@ -36,7 +38,7 @@ const AdminOrderDetailPage = () => {
       if (response.statusCode === 200) {
         fetchOrder();
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
