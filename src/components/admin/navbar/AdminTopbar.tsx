@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../../common/ErrorDisplay";
@@ -14,8 +15,8 @@ const AdminTopbar = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await userService.myProfile();
-        if (response.status === 200) {
+        const response:any = await userService.myProfile();
+        if (response.statusCode === 200) {
           setUserProfile(response.data);
         }
       } catch (error) {
@@ -24,7 +25,7 @@ const AdminTopbar = () => {
     };
 
     fetchProfile();
-  }, [showError]);
+  }, []);
 
   const handleLogout = () => {
     AuthHelper.logout();
@@ -48,7 +49,7 @@ const AdminTopbar = () => {
       <div className="topbar-right">
         <div className="user-profile">
           <img
-            src={userProfile?.profileUrl}
+            src={`http://localhost:8081`+userProfile?.profileUrl}
             alt="User Profile"
             className="profile-image"
           />

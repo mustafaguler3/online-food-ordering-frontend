@@ -1,221 +1,185 @@
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Container, Paper, Box, Avatar, Typography, TextField, Button, Divider, Stack } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { useError } from "../common/ErrorDisplay";
-import { useState } from "react";
-import ApiService from "../../services/ApiService";
 import authService from "../../services/authService";
+import { toast } from "react-toastify";
+
+const schema = Yup.object().shape({
+  name: Yup.string().required("Full Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  phoneNumber: Yup.string().required("Phone Number is required"),
+  address: Yup.string().required("Address is required"),
+});
+
+type FormValues = {
+  name: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  address: string;
+};
 
 const RegisterPage = () => {
-  const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
+  const { ErrorDisplay, showError } = useError();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
-    address: "",
-    confirmPassword: "",
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
+    resolver: yupResolver(schema),
   });
 
-  const handleChange = (e) => {
-    setFormData(
-        { ...formData, 
-            [e.target.name]: e.target.value 
-        });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.password ||
-      !formData.phoneNumber ||
-      !formData.confirmPassword ||
-      !formData.address
-    ) {
-      showError("All fields are required");
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      showError("Passwords do not match.");
-      return;
-    }
-
-    const registrationData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      phoneNumber: formData.phoneNumber,
-      address: formData.address,
-    };
-
+  const onSubmit = async (data: FormValues) => {
     try {
-      const response = await authService.register(registrationData);
-      if (response.status === 200) {
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          phoneNumber: "",
-          address: "",
-          confirmPassword: "",
+      const response: any = await authService.register(data);
+
+      if (response.statusCode === 200) {
+        toast.success(response.data.message, {
+          position: "bottom-right",
+          autoClose: 2000,
+          theme: "colored",
         });
+        reset(); 
         navigate("/login");
       } else {
-        showError(response);
+        toast.error(response.data.message || "Registration failed", {
+          position: "bottom-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        showError(response.data.message || "Registration failed");
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
   return (
-    <div className="register-page-food">
-      <div className="register-card-food">
-        <div className="register-header-food">
-          <h2 className="register-title-food">Register</h2>
-          <p className="register-description-food">
+    <Container maxWidth="sm">
+      <Paper elevation={3} sx={{ p: 4, mt: 8, borderRadius: 2 }}>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">Register</Typography>
+          <Typography variant="body2" color="textSecondary" align="center">
             Create an account to order delicious food!
-          </p>
-        </div>
-        <div className="register-content-food">
-          <form className="register-form-food" onSubmit={handleSubmit}>
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="Your Full Name"
-                className="register-input-food"
-              />
-            </div>
+          </Typography>
+        </Box>
 
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Email
-              </label>
-              <input
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2 }}>
+          {/* Full Name */}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Full Name"
+                margin="normal"
+                error={!!errors.name}
+                helperText={errors.name?.message}
+              />
+            )}
+          />
+
+          {/* Email */}
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Email Address"
                 type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Your Email Here"
-                className="register-input-food"
+                margin="normal"
+                error={!!errors.email}
+                helperText={errors.email?.message}
               />
-            </div>
+            )}
+          />
 
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Password
-              </label>
-              <input
+          {/* Password */}
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Password"
                 type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Password"
-                className="register-input-food"
+                margin="normal"
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
-            </div>
+            )}
+          />
 
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                placeholder="Confirm Password"
-                className="register-input-food"
+          {/* Phone Number */}
+          <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Phone Number"
+                margin="normal"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber?.message}
               />
-            </div>
+            )}
+          />
 
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                required
-                placeholder="Your Phone Number"
-                className="register-input-food"
+          {/* Address */}
+          <Controller
+            name="address"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Address"
+                margin="normal"
+                error={!!errors.address}
+                helperText={errors.address?.message}
               />
-            </div>
+            )}
+          />
 
-            <div className="register-form-group">
-              <label htmlFor="name" className="register-label-food">
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-                placeholder="Your Address Here"
-                className="register-input-food"
-              />
-            </div>
+          <ErrorDisplay />
 
-            <ErrorDisplay />
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3, mb: 2 }}>
+            Register
+          </Button>
 
-            <div>
-              <button type="submit" className="register-button-food">
-                Register
-              </button>
-            </div>
+          <Typography variant="body2" align="center">
+            Already have an account?{" "}
+            <Link to="/login" style={{ textDecoration: "none", color: "#1976d2" }}>
+              Login
+            </Link>
+          </Typography>
 
-            <div className="already">
-              <Link to="/login" className="register-link-food">
-                Already Have Account? Login
-              </Link>
-            </div>
-          </form>
+          <Divider sx={{ my: 3 }}>Or continue with</Divider>
 
-          <div className="register-social-food">
-            <div className="register-separator-food">
-              <span className="register-separator-text-food">
-                Or continue with
-              </span>
-            </div>
-
-            <div className="register-social-buttons-food">
-              <button className="register-social-button-food register-social-google-food">
-                Google
-              </button>
-              <button className="register-social-button-food register-social-facebook-food">
-                Facebook
-              </button>
-              <button className="register-social-button-food register-social-github-food">
-                Github
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button variant="outlined" startIcon={<GoogleIcon />} sx={{ textTransform: "none" }}>Google</Button>
+            <Button variant="outlined" startIcon={<FacebookIcon />} sx={{ textTransform: "none" }}>Facebook</Button>
+            <Button variant="outlined" startIcon={<GitHubIcon />} sx={{ textTransform: "none" }}>Github</Button>
+          </Stack>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

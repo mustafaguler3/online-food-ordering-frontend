@@ -6,6 +6,7 @@ export interface Menu {
     description: string
     price: number
     imageUrl: any
+    averageRating: number
     categoryId: number
     imageFile: any
     reviews: Review[]

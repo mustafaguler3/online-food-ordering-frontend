@@ -17,12 +17,10 @@ import { User } from "../../models/User";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
-  //const [error, setError] = useState(false);
 
   useEffect(() => {
     const fectUsers = async () => {
-      const response = await userService.all();
-
+      const response = await userService.getUsers()
       setUsers(response.data);
     };
 

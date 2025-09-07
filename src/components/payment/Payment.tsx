@@ -6,8 +6,8 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import paymentService from '../../services/paymentService';
 
 const stripeInstance = loadStripe(
   "pk_test_51LIGm5BJk0ZaKsmdyq1YUjfgcwEADWfhWcNTIMKWIv8LFk5XTq7its8TPtXRqWI2qXRJdyHUIAV4IMXUCqlwMDxU00xHqpGRcD"
@@ -35,7 +35,7 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
         amount: amount,
         orderId: orderId,
       };
-      const paymentInitilizeResponse = await ApiService.proceedForPayment(body);
+      const paymentInitilizeResponse: any = await paymentService.proceedForPayment(body);
 
       if (paymentInitilizeResponse.statusCode !== 200) {
         throw new Error(
@@ -63,7 +63,7 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
         console.log("PAYMENT IS SUCCESSDED");
 
         // Step 3: Update backend with payment completion
-        const res = await ApiService.updateOrderPayment({
+        const res = await paymentService.updateOrderPayment({
           orderId,
           amount,
           transactionId: paymentIntent.id,
@@ -75,7 +75,7 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
         
       } else {
         // Step 3: Update backend with payment completion
-        const res = await ApiService.updateOrderPayment({
+        const res = await paymentService.updateOrderPayment({
           orderId,
           amount,
           transactionId: paymentIntent.id,

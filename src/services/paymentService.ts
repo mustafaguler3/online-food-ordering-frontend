@@ -1,9 +1,10 @@
 import axiosClient from "./axiosClient";
 
 const paymentService = {
-    initializePayment: (data:any) => axiosClient.post("/payments/pay",data),
+    proceedForPayment: (data:any) => axiosClient.post("/payments/pay",data),
+    updateOrderPayment: (data:any) => axiosClient.put("/payments/update",data),
     getPayments: () => axiosClient.get("/payments/all"),
-    getPaymentById: (id:number) => axiosClient.get(`/payments/${id}`)
+    getPaymentById: (id:any) => axiosClient.get(`/payments/${id}`)
 }
 
 export default paymentService;

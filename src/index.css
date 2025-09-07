@@ -702,7 +702,7 @@ nav {
 }
 
 .home-hero-section {
-    background-image: linear-gradient(to bottom, #ff6600, #e65100);  /* A gradient from orange to a darker orange */
+    background-image: linear-gradient(to bottom, #003fff, #e65100ed);  /* A gradient from orange to a darker orange */
     color: white;
     text-align: center;
     padding: 8rem 2rem; /* Increased padding for a more spacious feel */

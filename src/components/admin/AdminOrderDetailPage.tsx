@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 import { Order } from '../../models/Order';
-import orderService from "../../services/orderService";
+import orderService from '../../services/orderService';
 
 const AdminOrderDetailPage = () => {
   const { id } = useParams();
@@ -19,8 +18,8 @@ const AdminOrderDetailPage = () => {
 
   const fetchOrder = async () => {
     try {
-      const response = await orderService.getOrderById(id)
-      if (response.status === 200) {
+      const response: any = await orderService.getOrderById(id)
+      if (response.statusCode === 200) {
         setOrder(response.data);
       }
     } catch (error: any) {
@@ -30,7 +29,7 @@ const AdminOrderDetailPage = () => {
 
   const handleUpdateStatus = async (newStatus: any) => {
     try {
-      const response = await ApiService.updateOrderStatus({
+      const response:any = await orderService.updateOrderStatus({
         id: id,
         orderStatus: newStatus,
       });
@@ -125,7 +124,7 @@ const AdminOrderDetailPage = () => {
                   <td>
                     <div className="item-details">
                       <img
-                        src={`http://localhost:8080/`+item.menu.imageUrl}
+                        src={`/`+item.menu.imageUrl}
                         alt={item.menu.name}
                         className="item-image"
                       />

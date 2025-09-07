@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import ApiService from "../../services/ApiService";
 import ClipLoader from "react-spinners/ClipLoader";
+import orderService from "../../services/orderService";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
@@ -14,14 +15,14 @@ const OrderHistoryPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await ApiService.getMyOrders();
+        const response = await orderService.getMyOrders()
         const enhancedOrders = [];
         console.log("Response order : ", response.data);
         for (const order of response.data) {
           const enhancedItems = [];
           console.log("Response order data: ", order);
           for (const item of order.orderItems) {
-            const itemResponse = await ApiService.getOrderItemById(item.id);
+            const itemResponse: any = await orderService.getOrderItemById(item.id);
             if (itemResponse.statusCode === 200) {
               enhancedItems.push({
                 ...item,
@@ -49,7 +50,7 @@ const OrderHistoryPage = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = {
+    const options:any = {
       year: "numeric",
       month: "long",
       day: "numeric",

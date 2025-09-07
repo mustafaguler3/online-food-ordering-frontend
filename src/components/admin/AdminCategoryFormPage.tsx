@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import categoryService from "../../services/categoryService";
 
 const AdminCategoryFormPage = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const AdminCategoryFormPage = () => {
 
   const fetchCategory = async () => {
     try {
-      const response = await ApiService.getCategoryById(id);
+      const response:any = await categoryService.getCategoryById(id);
       if (response.statusCode === 200) {
         setCategory(response.data);
       }

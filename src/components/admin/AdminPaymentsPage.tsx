@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 import { Payment } from "../../models/Payment";
+import paymentService from "../../services/paymentService";
 
 const AdminPaymentsPage = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -13,12 +14,11 @@ const AdminPaymentsPage = () => {
 
   useEffect(() => {
     fetchPayments();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const fetchPayments = async () => {
     try {
-      const response = await ApiService.getAllPayments();
+      const response:any = await paymentService.getPayments();
 
       if (response.statusCode === 200) {
         let filteredPayments = response.data;

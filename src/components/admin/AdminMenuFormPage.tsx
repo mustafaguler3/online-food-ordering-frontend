@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import categoryService from "../../services/categoryService";
+import menuService from "../../services/menuService";
 
 const AdminMenuFormPage = () => {
   const { id } = useParams();
@@ -32,7 +34,7 @@ const AdminMenuFormPage = () => {
   //FETCH ALL CATEGORIES
   const fetchCategories = async () => {
     try {
-      const response = await ApiService.getAllCategories();
+      const response: any = await categoryService.getCategories();
       if (response.statusCode === 200) {
         setCategories(response.data);
       }
@@ -44,7 +46,7 @@ const AdminMenuFormPage = () => {
   //FETCH MENU BY ID WHEN WE ARE USING THIS FORM TO UPDATE A MENU
   const fetchMenu = async () => {
     try {
-      const response = await ApiService.getMenuById(id);
+      const response: any = await menuService.getMenuById(id);
       if (response.statusCode === 200) {
         setMenu({
           ...response.data,
@@ -82,9 +84,9 @@ const AdminMenuFormPage = () => {
 
       if (id) {
         formData.append("id", id);
-        response = await ApiService.updateMenu(formData);
+        response = await menuService.updateMenu(formData);
       } else {
-        response = await ApiService.addMenu(formData);
+        response = await menuService.addMenu(formData);
       }
 
       console.log("RESPONSE IS: " + JSON.stringify(response));

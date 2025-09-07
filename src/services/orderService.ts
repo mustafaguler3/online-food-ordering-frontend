@@ -1,8 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const orderService = {
+  placeOrder: () => axiosClient.post("/orders/checkout"),
+  getOrderItemById: (id: any) => axiosClient.get(`/orders/order-item/${id}`),
+  getMyOrders: () => axiosClient.get(`/orders/me`),
   getOrders: (orderStatus?: any, page = 0, size = 200) => {
-    const params: any = { page, size };
+    const params: any = { orderStatus,page, size };
 
     if (orderStatus) {
       params.orderStatus = orderStatus;
@@ -10,7 +13,9 @@ const orderService = {
 
     return axiosClient.get("/orders/all", { params });
   },
-  getOrderById: (id: any) => axiosClient.post(`/orders/${id}`),
+  getOrderById: (id: any) => axiosClient.get(`/orders/${id}`),
+  updateOrderStatus: (body:any) => axiosClient.put(`/orders/update`,body)
 };
+
 
 export default orderService;

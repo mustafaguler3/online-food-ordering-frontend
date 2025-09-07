@@ -1,4 +1,5 @@
-class AuthHelper {
+export class AuthHelper {
+
   static isDeliveryPerson() {
     return this.hadRole("DELIVERY");
   }
@@ -43,4 +44,3 @@ class AuthHelper {
   }
 }
 
-export { AuthHelper };

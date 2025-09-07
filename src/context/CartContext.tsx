@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useEffect, useState } from "react";
 import { cartService } from "../services/cartService";
+import { useUser } from "./UserContext";
+import { AuthHelper } from "../helpers/AuthHelper";
 
 interface CartContextType {
   cart: any | null;
@@ -11,28 +14,37 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null)
 
 export function CartProvider({ children }) {
-
+  const { user } = useUser();
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cart, setCart] = useState(null);
 
   const fetchCart = async () => {
-    try {
-      const response = await cartService.getCart();
-      const count = response.data.cartItems.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-      );
-      setCart(response.data);
-      setCartItemCount(count);
-    } catch (err) {
-      console.error("Failed to fetch cart", err);
-      setCartItemCount(0);
-    }
+  if (!user) return;
+
+  // Eğer kullanıcı admin veya delivery ise cart çekme
+  if (user.roles.includes("ADMIN") || user.roles.includes("DELIVERY")) {
+    setCart(null);
+    setCartItemCount(0);
+    return;
   }
+
+  try {
+    const response = await cartService.getCart();
+    const count = response.data.cartItems.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+    setCart(response.data);
+    setCartItemCount(count);
+  } catch (err) {
+    setCartItemCount(0);
+    setCart(null);
+  }
+};
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [user]);
 
   return (
     <CartContext.Provider

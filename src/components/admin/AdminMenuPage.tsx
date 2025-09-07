@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 import menuService from "../../services/menuService";
 import { Menu } from "../../models/Menu";
@@ -14,13 +14,12 @@ const AdminMenuPage = () => {
 
   useEffect(() => {
     fetchMenus();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMenus = async () => {
     try {
-      const response = await menuService.getMenus()
-      if (response.status === 200) {
+      const response:any = await menuService.getMenus()
+      if (response.statusCode === 200) {
         setMenus(response.data);
       }
     } catch (error) {
@@ -39,7 +38,7 @@ const AdminMenuPage = () => {
   const handleDeleteMenuItem = async (id) => {
     if (window.confirm("Are you sure you want to delete this menu item?")) {
       try {
-        const response = await ApiService.deleteMenu(id);
+        const response:any = await menuService.deleteMenuById(id);
         if (response.statusCode === 200) {
           fetchMenus();
         }

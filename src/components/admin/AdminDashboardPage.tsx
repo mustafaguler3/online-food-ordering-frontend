@@ -34,9 +34,9 @@ const AdminDashboardPage = () => {
   const fetchDashboardData = async () => {
     try {
       // Fetch all necessary data from backend
-      const ordersResponse = await orderService.getOrders();
-      const menuResponse = await menuService.getMenus();
-      const paymentsResponse = await paymentService.getPayments();
+      const ordersResponse:any = await orderService.getOrders();
+      const menuResponse:any = await menuService.getMenus();
+      const paymentsResponse:any = await paymentService.getPayments();
 
       const activeCustomerResponse =
         await ApiService.countTotalActiveCustomers();
@@ -44,9 +44,9 @@ const AdminDashboardPage = () => {
       const activeCustomers = activeCustomerResponse.data;
 
       if (
-        ordersResponse.status === 200 &&
-        menuResponse.status === 200 &&
-        paymentsResponse.status === 200
+        ordersResponse.statusCode === 200 &&
+        menuResponse.statusCode === 200 &&
+        paymentsResponse.statusCode === 200
       ) {
         const orders = ordersResponse.data.content;
         const menu = menuResponse.data;

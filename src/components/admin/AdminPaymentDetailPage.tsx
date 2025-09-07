@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 import { Payment } from "../../models/Payment";
+import paymentService from "../../services/paymentService";
 
 const AdminPaymentDetailPage = () => {
   const { id } = useParams();
@@ -18,7 +18,7 @@ const AdminPaymentDetailPage = () => {
 
   const fetchPayment = async () => {
     try {
-      const response = await ApiService.getAPaymentById(id);
+      const response:any = await paymentService.getPaymentById(id);
       if (response.statusCode === 200) {
         setPayment(response.data);
       }

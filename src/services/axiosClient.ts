@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:8081/api",
@@ -17,19 +18,23 @@ axiosClient.interceptors.request.use((config: any) => {
   return config;
 });
 
+
+
 // Response interceptor (error handling)
 axiosClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
+    let message;
+
     if (error.response) {
-      // Sunucudan gelen hata
+      message = error.response.data?.message || "Bir hata oluştu";
       return Promise.reject(error.response.data);
     } else if (error.request) {
-      // İstek gitti ama cevap gelmedi
-      return Promise.reject("No response from server");
+      message = "Sunucuya ulaşılamıyor";
+      return Promise.reject(message);
     } else {
-      // İstek ayarı sırasında hata oluştu
-      return Promise.reject(error.message || "Unexpected error");
+      message = error.message || "Beklenmeyen bir hata";
+      return Promise.reject(message);
     }
   }
 );

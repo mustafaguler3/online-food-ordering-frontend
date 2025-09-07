@@ -18,7 +18,7 @@ const ProcessPaymentPage = () => {
 
   useEffect(() => {
     const orderId = searchParams.get("orderid");
-    const amount = searchParams.get("amount");
+    const amount:any = searchParams.get("amount");
 
     if (!orderId || !amount) {
       showError("Missing order information in URL");
@@ -36,7 +36,7 @@ const ProcessPaymentPage = () => {
     });
   }, [searchParams]);
 
-  const handlePaymentSuccess = (paymentIntent) => {
+  const handlePaymentSuccess = () => {
     setPaymentCompleted(true);
     setTimeout(() => {
       navigate("/my-order-history");

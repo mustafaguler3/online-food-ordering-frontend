@@ -13,8 +13,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await categoryService.getCategories();
-        if (response.status === 200) {
+        const response: any = await categoryService.getCategories();
+        if (response.statusCode === 200) {
           setCategories(response.data);
         } else {
           showError(response.statusText);
@@ -28,25 +28,21 @@ const HomePage = () => {
   }, []);
 
   const handleCategoryClick = (categoryId: number) => {
-    navigate(`/menu?category=${categoryId}`);
+    navigate(`/menus?categoryId=${categoryId}`);
   };
 
   return (
     <div className="home-page">
       <ErrorDisplay />
-      <header className="home-hero-section">
-        <div className="home-hero-content">
-          <h1 className="home-hero-title">Discover Delicious Meals</h1>
-
-          <p className="home-hero-subtitle">
+      <header className="hero-section">
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <h1 className="hero-title">Discover Delicious Meals</h1>
+          <p className="hero-subtitle">
             Order your favorite food online quickly and easily
           </p>
-
-          <button
-            className="home-explore-button"
-            onClick={() => navigate("/menu")}
-          >
-            Explore Menu
+          <button className="hero-button" onClick={() => navigate("/menus")}>
+            🍴 Explore Menu
           </button>
         </div>
       </header>
@@ -77,7 +73,7 @@ const HomePage = () => {
           </p>
           <button
             className="home-order-now-button"
-            onClick={() => navigate("/menu")}
+            onClick={() => navigate("/menus")}
           >
             Order Now
           </button>

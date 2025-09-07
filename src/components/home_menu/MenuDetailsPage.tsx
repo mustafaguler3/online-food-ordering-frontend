@@ -1,14 +1,33 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Stack,
+  Rating,
+  TextField,
+} from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
-import { useError } from "../common/ErrorDisplay"; // import custom error hook
-import { AuthHelper } from "../../helpers/AuthHelper";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import menuService from "../../services/menuService";
+import { AuthHelper } from "../../helpers/AuthHelper";
+import { useError } from "../common/ErrorDisplay";
+import { cartService } from "../../services/cartService";
+import reviewService from "../../services/reviewService";
+import { toast } from "react-toastify";
+import { useCart } from "../../context/CartContext";
+import { Menu } from "../../models/Menu";
 
 const MenuDetailsPage = () => {
   const { id } = useParams();
+  const { fetchCart } = useCart();
   const navigate = useNavigate();
-  const [menu, setMenu] = useState(null);
+  const [menu, setMenu] = useState<Menu>(null);
   const [averageRating, setAverageRating] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [cartSuccess, setCartSuccess] = useState(false);
@@ -19,167 +38,166 @@ const MenuDetailsPage = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await menuService.getMenuById(id);
-        if (response.status === 200) {
+        const response: any = await menuService.getMenuById(id);
+        if (response.statusCode === 200) {
           setMenu(response.data);
+          const ratingResponse: any =
+            await reviewService.getMenuAverageOverallReview(id);
 
-          // Fetch average rating
-          const ratingResponse = await ApiService.getMenuAverageOverallReview(
-            id
-          );
+            console.log("average "+ratingResponse)
           if (ratingResponse.statusCode === 200) {
-            setAverageRating(ratingResponse.data);
+            setAverageRating(ratingResponse);
+            console.log("average "+ratingResponse.data.averageRating)
           }
         } else {
           showError(response);
         }
-      } catch (error) {
+      } catch (error: any) {
         showError(error.response?.data?.message || error.message);
       }
     };
-
     fetchMenu();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const handleBackToMenu = () => {
-    navigate(-1);
-  };
+  const incrementQuantity = () => setQuantity((prev) => prev + 1);
+  const decrementQuantity = () =>
+    setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
-      showError(
-        "Please login to continue, If you don't have an acount do well to register"
-      );
-      setTimeout(() => {
-        navigate("/login");
-      }, 5000);
+      showError("Please login to continue.");
+      setTimeout(() => navigate("/login"), 3000);
       return;
     }
-    setCartSuccess(false);
-    try {
-      const response = await ApiService.addItemToCart({
-        menuId: menu.id,
-        quantity: quantity,
-      });
 
+    try {
+      const response: any = await cartService.addItemToCart({
+        menuId: menu.id,
+        quantity,
+      });
       if (response.statusCode === 200) {
         setCartSuccess(true);
-        setTimeout(() => setCartSuccess(false), 4000);
+        await fetchCart()
+        toast.success(`${menu.name} added successfully!`, {
+          position: "bottom-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        setTimeout(() => setCartSuccess(false), 3000);
       } else {
         showError(response.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
-  const incrementQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
+  if (!menu) return <Container sx={{ mt: 4 }}>Loading...</Container>;
 
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
+  return (
+    <Container sx={{ mt: 4 }}>
+      <ErrorDisplay />
+      <Button variant="outlined" onClick={() => navigate(-1)} sx={{ mb: 3 }}>
+        &larr; Back to Menu
+      </Button>
 
-  // if (!menu) {
-  //     return (
-  //         <div className="menu-details-not-found">
-  //             <p>Menu item not found</p>
-  //             <button onClick={handleBackToMenu} className="back-button">
-  //                 Back to Menu
-  //             </button>
-  //         </div>
-  //     );
-  // }
+      <Stack direction={{ xs: "column", md: "row" }} spacing={4}>
+        {/* Menu Image */}
+        <Box sx={{ flex: 1 }}>
+          <img
+            src={`/${menu.imageUrl}`}
+            alt={menu.name}
+            style={{ width: "100%", borderRadius: 8 }}
+          />
+        </Box>
 
-  if (menu) {
-    return (
-      <div className="menu-details-container">
-        <ErrorDisplay />
-        <button onClick={handleBackToMenu} className="back-button">
-          &larr; Back to Menu
-        </button>
+        {/* Menu Info */}
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="h4" gutterBottom>
+            {menu.name}
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            {menu.description}
+          </Typography>
+          <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+            <Typography variant="h5" color="primary">
+              ${menu.price.toFixed(2)}
+            </Typography>
+            
+<Stack direction="row" alignItems="center" spacing={1}>
+  <Rating
+    name="average-rating"
+    value={menu.averageRating}  // backend’den gelen double
+    precision={0.1}           // 0.1 ile daha hassas yarım yıldız
+    readOnly
+    sx={{ color: "#FFD700" }}  // sarı renk
+  />
+  <Typography variant="body2">{menu.averageRating.toFixed(1)}</Typography>
+</Stack>
 
-        <div className="menu-item-header">
-          <div className="menu-item-image-container">
-            <img
-              src={`/`+menu.imageUrl}
-              alt={menu.name}
-              className="menu-item-image-detail"
+            <Typography variant="body2">
+              ({menu.reviews?.length || 0} reviews)
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+            <IconButton onClick={decrementQuantity}>
+              <RemoveIcon />
+            </IconButton>
+            <TextField
+              value={quantity}
+              size="small"
+              inputProps={{ readOnly: true, style: { textAlign: "center" } }}
+              sx={{ width: 60 }}
             />
-          </div>
-          <div className="menu-item-info">
-            <h1 className="menu-item-name">{menu.name}</h1>
-            <p className="menu-item-description">{menu.description}</p>
-            <div className="menu-item-price-rating">
-              <span className="price">${menu.price.toFixed(2)}</span>
-              <div className="rating">
-                <span className="rating-value">{averageRating.toFixed(1)}</span>
-                <span className="rating-star">★</span>
-                <span className="rating-count">
-                  ({menu.reviews?.length || 0} reviews)
-                </span>
-              </div>
-            </div>
-            <div className="add-to-cart-section">
-              <div className="quantity-selector">
-                <button
-                  onClick={decrementQuantity}
-                  className="quantity-btn"
-                  disabled={quantity <= 1}
-                >
-                  -
-                </button>
-                <span className="quantity">{quantity}</span>
-                <button onClick={incrementQuantity} className="quantity-btn">
-                  +
-                </button>
-              </div>
-              <button onClick={handleAddToCart} className="add-to-cart-btn">
-                {"Add to Cart"}
-              </button>
-              {cartSuccess && (
-                <div className="cart-success-message">
-                  Added to cart successfully!
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+            <IconButton onClick={incrementQuantity}>
+              <AddIcon />
+            </IconButton>
+            <Button
+              variant="contained"
+              startIcon={<ShoppingCartIcon />}
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </Button>
+          </Stack>
 
-        <div className="reviews-section">
-          <h2 className="reviews-title">Customer Reviews</h2>
+        
+        </Box>
+      </Stack>
 
-          {menu.reviews && menu.reviews.length > 0 ? (
-            <div className="reviews-list">
-              {menu.reviews.map((review) => (
-                <div key={review.id} className="review-card">
-                  <div className="review-header">
-                    <span className="review-user">{review.userName}</span>
-                    <span className="review-date">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <div className="review-rating">
-                    {"★".repeat(review.rating)}
-                    {"☆".repeat(10 - review.rating)}
-                  </div>
-                  <p className="review-comment">{review.comment}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="no-reviews">
-              No reviews yet. Be the first to review!
-            </p>
-          )}
-        </div>
-      </div>
-    );
-  }
+      {/* Reviews */}
+      <Box sx={{ mt: 6 }}>
+        <Typography variant="h5" gutterBottom>
+          Customer Reviews
+        </Typography>
+        {menu.reviews && menu.reviews.length > 0 ? (
+          menu.reviews.map((review: any) => (
+            <Box
+              key={review.id}
+              sx={{
+                border: "1px solid #e0e0e0",
+                p: 2,
+                borderRadius: 2,
+                mb: 2,
+              }}
+            >
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="subtitle2">{review.userName}</Typography>
+                <Typography variant="caption">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </Typography>
+              </Stack>
+              <Rating value={review.rating} readOnly />
+              <Typography variant="body2">{review.comment}</Typography>
+            </Box>
+          ))
+        ) : (
+          <Typography>No reviews yet. Be the first to review!</Typography>
+        )}
+      </Box>
+    </Container>
+  );
 };
 
 export default MenuDetailsPage;

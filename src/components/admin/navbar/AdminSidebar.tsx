@@ -1,5 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
   faList,
@@ -8,9 +7,11 @@ import {
   faCreditCard,
   faPerson,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const AdminSidebar = () => {
   const location = useLocation();
+  
   return (
     <div className="admin-sidebar">
       <div className="sidebar-header">
@@ -21,9 +22,7 @@ const AdminSidebar = () => {
           <li>
             <NavLink
               to="/admin"
-              className={location.pathname === "/admin" ? "active" : ""}
-              end
-            >
+              className={location.pathname === "/admin" ? "active" : ""}>
               <FontAwesomeIcon icon={faChartLine} />
               <span>Dashboard</span>
             </NavLink>

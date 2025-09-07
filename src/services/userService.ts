@@ -2,10 +2,10 @@ import axiosClient from "./axiosClient";
 
 
 const userService = {
-    all: () => axiosClient.get("/users/all"),
+    getUsers: () => axiosClient.get("/users/all"),
     myProfile: () => axiosClient.get("/users/account"),
-    updateProfile: (formData: any) => axiosClient.put("/users/update",formData, {
-        headers: {"Content-Type":"application/json"}
+    updateProfile: (formData: any) => axiosClient.put("/users/update",formData,{
+        headers: { "Content-Type": "multipart/form-data" }
     }),
     deactiveAccount: () => axiosClient.get("/users/deactivate")
 }

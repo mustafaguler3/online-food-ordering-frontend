@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
 import { Category } from "../../models/Category";
+import categoryService from "../../services/categoryService";
 
 const AdminCategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -16,7 +16,8 @@ const AdminCategoriesPage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await ApiService.getAllCategories();
+      const response:any = await categoryService.getCategories()
+      
       if (response.statusCode === 200) {
         setCategories(response.data);
       }
@@ -36,7 +37,7 @@ const AdminCategoriesPage = () => {
   const handleDeleteCategory = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        const response = await ApiService.deleteCategory(id);
+        const response:any = await categoryService.deleteCategoryById(id);
         if (response.statusCode === 200) {
           fetchCategories();
         }
@@ -45,7 +46,6 @@ const AdminCategoriesPage = () => {
       }
     }
   };
-
   return (
     <div className="admin-categories">
       <ErrorDisplay />

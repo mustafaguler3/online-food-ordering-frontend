@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import ApiService from "../../services/ApiService";
 import { useError } from "../common/ErrorDisplay";
+import menuService from "../../services/menuService";
+import reviewService from "../../services/reviewService";
 
 const LeaveReviewPage = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const LeaveReviewPage = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await ApiService.getMenuById(menuId);
+        const response: any = await menuService.getMenuById(menuId);
         if (response.statusCode === 200) {
           setMenu(response.data);
         }
@@ -46,7 +47,7 @@ const LeaveReviewPage = () => {
         rating,
         comment,
       };
-      const response = await ApiService.createReview(reviewData);
+      const response: any = await reviewService.createReview(reviewData);
 
       if (response.statusCode === 200) {
         setSuccess(true);
@@ -79,7 +80,7 @@ const LeaveReviewPage = () => {
         <div className="rating-section">
           <label>Your Rating:</label>
           <div className="star-rating">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+            {[1, 2, 3, 4, 5].map((star) => (
               <span
                 key={star}
                 className={`star ${star <= rating ? "filled" : ""}`}

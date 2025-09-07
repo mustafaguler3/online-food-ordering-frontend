@@ -18,11 +18,11 @@ const AdminOrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await orderService.getOrders(
+      const response:any = await orderService.getOrders(
         filter === "all" ? null : filter
       );
 
-      if (response.status === 200) {
+      if (response.statusCode === 200) {
         setOrders(response.data.content);
       }
     } catch (error: any) {

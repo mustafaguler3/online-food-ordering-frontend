@@ -1,127 +1,153 @@
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Avatar,
+  Paper,
+  Divider,
+  Stack,
+} from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useError } from "../common/ErrorDisplay";
-import { useState } from "react";
-import ApiService from "../../services/ApiService";
-import authService from "../../services/authService";
 import { AuthHelper } from "../../helpers/AuthHelper";
+import authService from "../../services/authService";
+import { useUser } from "../../context/UserContext";
+import { useCart } from "../../context/CartContext";
 
 const LoginPage = () => {
+  const { fetchUser } = useUser();
+  const { fetchCart } = useCart();
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
   const { state } = useLocation();
   const redirectPath = state?.from?.pathname || "/home";
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!formData.email || !formData.password) {
       showError("Email and password are required.");
       return;
     }
 
     try {
-      const response = await authService.login(formData);
-      if (response.status === 200) {
+      const response: any = await authService.login(formData);
+
+      if (response.statusCode === 200) {
         AuthHelper.saveToken(response.data.token);
         AuthHelper.saveRole(response.data.roles);
         navigate(redirectPath, { replace: true });
+        await fetchUser();
+        await fetchCart();
       } else {
-        showError(response);
+        showError(response.data.message || "Beklenmeyen hata");
       }
-    } catch (error) {
+    } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
   };
 
   return (
-    <div className="login-page-food">
+    <Container maxWidth="sm">
       <ErrorDisplay />
-      <div className="login-card-food">
-        <div className="login-header-food">
-          <h2 className="login-title-food">Login</h2>
-          <p className="login-description-food">
+      <Paper elevation={3} sx={{ p: 4, mt: 8, borderRadius: 2 }}>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
             Login to your account to order delicious food!
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
-        <div className="login-content-food">
-          <form className="login-form-food" onSubmit={handleSubmit}>
-            <div className="login-form-group">
-              <label htmlFor="email" className="login-label-food">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Your Email Address"
-                className="login-input-food"
-              />
-            </div>
-            <div className="login-form-group">
-              <label htmlFor="password" className="login-label-food">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Password"
-                className="login-input-food"
-              />
-            </div>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-            <div>
-              <button type="submit" className="login-button-food">
-                Login
-              </button>
-            </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Login
+          </Button>
 
-            <div className="already">
-              <Link to="/register" className="register-link-food">
-                Don't Have an Account? Register
-              </Link>
-            </div>
-          </form>
+          <Typography variant="body2" align="center">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "#1976d2" }}
+            >
+              Register
+            </Link>
+          </Typography>
 
-          <div className="login-social-food">
-            <div className="login-separator-food">
-              <span className="login-separator-text-food">
-                Or continue with
-              </span>
-            </div>
+          <Divider sx={{ my: 3 }}>Or continue with</Divider>
 
-            <div className="login-social-buttons-food">
-              <button className="login-social-button-food login-social-google-food">
-                Google
-              </button>
-              <button className="login-social-button-food login-social-facebook-food">
-                Facebook
-              </button>
-              <button className="login-social-button-food login-social-github-food">
-                Github
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button
+              variant="outlined"
+              startIcon={<GoogleIcon />}
+              sx={{ textTransform: "none" }}
+            >
+              Google
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FacebookIcon />}
+              sx={{ textTransform: "none" }}
+            >
+              Facebook
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<GitHubIcon />}
+              sx={{ textTransform: "none" }}
+            >
+              Github
+            </Button>
+          </Stack>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
+
 export default LoginPage;
