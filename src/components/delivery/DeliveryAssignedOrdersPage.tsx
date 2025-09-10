@@ -17,7 +17,6 @@ import {
 const DeliveryAssignedOrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState();
-  const [status, setStatus] = useState();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -56,7 +55,7 @@ const DeliveryAssignedOrdersPage = () => {
     }
   };
 
-  if (!orders || orders.length === 0) {
+  if (!orders) {
     return (
       <h3 className="text-center mt-10 text-gray-500">
         🚚 No assigned orders yet
@@ -79,7 +78,7 @@ const DeliveryAssignedOrdersPage = () => {
                 mb={2}
               >
                 <Typography variant="h5" fontWeight="bold">
-                  Order #{order.id}
+                  Order #{order.orderCode}
                 </Typography>
                 <Box display="flex" gap={1}>
                   <Chip label={order.orderStatus} color={ order.orderStatus === "DELIVERED" ? "success" : "primary" } />
@@ -123,11 +122,8 @@ const DeliveryAssignedOrdersPage = () => {
 
               {/* Delivery Person */}
               <Box mb={2}>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  Delivery Person
-                </Typography>
                 <Typography>
-                  <strong>Delivery Name:</strong> {order.deliveryPersonName}
+                  <strong>Delivery Name:</strong> 
                 </Typography>
               </Box>
 

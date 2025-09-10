@@ -39,6 +39,7 @@ import { AuthHelper } from "./helpers/AuthHelper";
 import { useEffect, useState } from "react";
 import DeliveryAssignedOrdersPapge from "./components/delivery/DeliveryAssignedOrdersPage";
 import DeliveryAssignedOrdersPage from "./components/delivery/DeliveryAssignedOrdersPage";
+import AdminDeliveriesPage from "./components/admin/AdminDeliveriesPage";
 
 function App() {
   const isAuthenticated = AuthHelper.isAuthenticated()
@@ -117,6 +118,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 >
+                  <Route path="deliveries" element={<AdminDeliveriesPage/>}/>
                   <Route index element={<AdminDashboardPage />} />
                   <Route path="categories" element={<AdminCategoriesPage />} />
                   <Route

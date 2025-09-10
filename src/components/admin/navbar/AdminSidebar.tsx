@@ -1,5 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import FastfoodIcon from '@mui/icons-material/Fastfood';
 import {
   faChartLine,
   faList,
@@ -62,6 +61,19 @@ const AdminSidebar = () => {
               <span>Menu Items</span>
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/admin/deliveries"
+              className={
+                location.pathname.includes("/admin/deliveries") ? "active" : ""
+              }
+            >
+              <FontAwesomeIcon icon={faPerson} />
+              <span>Deliveries</span>
+            </NavLink>
+          </li>
+
           <li>
             <NavLink
               to="/admin/orders"
