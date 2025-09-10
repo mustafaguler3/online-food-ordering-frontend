@@ -39,7 +39,7 @@ const AdminDashboardPage = () => {
       const paymentsResponse:any = await paymentService.getPayments();
 
       const activeCustomerResponse =
-        await ApiService.countTotalActiveCustomers();
+        await orderService.countTotalActiveCustomers();
 
       const activeCustomers = activeCustomerResponse.data;
 
@@ -115,8 +115,6 @@ const AdminDashboardPage = () => {
   const handleViewOrder = (id) => {
     navigate(`/admin/orders/${id}`);
   };
-
-  // Revenue Chart data configurations
 
   const revenueChartData = {
     labels: [

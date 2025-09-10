@@ -48,7 +48,19 @@ const LoginPage = () => {
       if (response.statusCode === 200) {
         AuthHelper.saveToken(response.data.token);
         AuthHelper.saveRole(response.data.roles);
-        navigate(redirectPath, { replace: true });
+        const roles = response.data.roles;
+
+        if (roles.includes("DELIVERY")) {
+          //window.location.href = "/delivery";
+          navigate("/delivery", {replace: true})
+          window.location.reload();
+        }else if (roles.includes("ADMIN")) {
+          navigate("/admin", {replace : true})
+          window.location.reload();
+        }else {
+          navigate("/home", { replace: true });
+          window.location.reload();
+        }
         await fetchUser();
         await fetchCart();
       } else {

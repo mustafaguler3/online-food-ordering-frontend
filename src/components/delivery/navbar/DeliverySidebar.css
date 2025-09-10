@@ -1,0 +1,65 @@
+.delivery-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #1e293b; 
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.delivery-sidebar h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #facc15; 
+}
+
+.delivery-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.delivery-sidebar ul li {
+  margin: 15px 0;
+}
+
+.delivery-sidebar ul li a,
+.delivery-sidebar .logout-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.delivery-sidebar ul li a:hover,
+.delivery-sidebar .logout-link:hover {
+  background: #334155;
+  color: #fff;
+}
+
+.delivery-sidebar ul li .active-link {
+  background: #2563eb; 
+  color: #fff;
+  font-weight: bold;
+}
+
+.logout-link {
+  cursor: pointer;
+  color: #f87171;
+}
+
+.logout-link:hover {
+  background: #dc2626;
+  color: #fff;
+}

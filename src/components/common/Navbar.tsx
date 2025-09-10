@@ -1,108 +1,92 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// Navbar.tsx
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
-  Button,
+  IconButton,
   Menu,
   MenuItem,
   Container,
   Box,
-  Tooltip,
+  Button,
   Avatar,
+  Tooltip,
   Badge,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { AuthHelper } from "../../helpers/AuthHelper";
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { useUser } from "../../context/UserContext";
-
-const pages = ["Home", "Categories", "Menus","Restaurants"];
-const pageRoutes: Record<string, string> = {
-  Home: "/home",
-  Categories: "/categories",
-  Menus: "/menus",
-  Restaurants: "/restaurants"
-};
+import { AuthHelper } from "../../helpers/AuthHelper";
+import { navConfig } from "../../utils/RoleBasedNavbar";
 
 function Navbar() {
-  
   const navigate = useNavigate();
   const { fetchCart, cartItemCount } = useCart();
-  const { fetchUser ,user, error} = useUser();
+  const { user } = useUser();
 
   const isAuthenticated = AuthHelper.isAuthenticated();
   const isAdmin = AuthHelper.isAdmin();
-  const isCustomer = AuthHelper.isCustomer();
   const isDeliveryPerson = AuthHelper.isDeliveryPerson();
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const role = isAdmin ? "admin" : isDeliveryPerson ? "delivery" : "customer";
+  const { pages, routes, settings, showCart } = navConfig[role];
+
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
-    if (isAuthenticated && !isAdmin) fetchCart();
+    if (isAuthenticated && showCart) fetchCart();
   }, [isAuthenticated]);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   const handlePageClick = (page: string) => {
     handleCloseNavMenu();
-    const path = pageRoutes[page];
+    const path = routes[page];
     if (path) navigate(path);
   };
 
   const handleSettingClick = (setting: string) => {
     handleCloseUserMenu();
     if (setting === "Logout") {
-      const isLogout = window.confirm("Are you sure you want to logout?");
-      if (isLogout) {
+      if (window.confirm("Are you sure you want to logout?")) {
         AuthHelper.logout();
-        navigate("/login");
+        window.location.href = "/login"
+        //navigate("/login");
       }
       return;
     }
-    if (setting === "Admin") {
-      navigate("/admin");
-      return;
-    }
-    navigate(`/${setting.toLowerCase()}`);
+    navigate(
+      setting === "Admin" ? "/admin" : `/${setting.toLowerCase().replace(" ", "-")}`
+    );
   };
-
-  const settings = ["Profile"];
-  if (isAdmin) settings.unshift("Admin");
-  settings.push("Logout");
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo Desktop */}
-          <RestaurantMenuIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <RestaurantMenuIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
               cursor: "pointer",
             }}
             onClick={() => navigate("/home")}
@@ -112,25 +96,13 @@ function Navbar() {
 
           {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handlePageClick(page)}>
@@ -144,7 +116,6 @@ function Navbar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -152,8 +123,6 @@ function Navbar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
               cursor: "pointer",
             }}
             onClick={() => navigate("/home")}
@@ -161,7 +130,7 @@ function Navbar() {
             FoodApp
           </Typography>
 
-          {/* Desktop Menu Buttons */}
+          {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -175,7 +144,7 @@ function Navbar() {
           </Box>
 
           {/* Cart Icon */}
-          {isAuthenticated && !isAdmin && isCustomer && (
+          {isAuthenticated && showCart && (
             <IconButton color="inherit" onClick={() => navigate("/cart")}>
               <Badge badgeContent={cartItemCount} color="error">
                 <ShoppingCartIcon />
@@ -183,22 +152,17 @@ function Navbar() {
             </IconButton>
           )}
 
-          {/* User Menu or Login/Register */}
+          {/* User Menu */}
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated ? (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="User" src={`http://localhost:8081`+user?.profileUrl}/>
+                    <Avatar alt="User" src={`http://localhost:8081${user?.profileUrl}`} />
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
                   anchorEl={anchorElUser}
-                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  keepMounted
-                  transformOrigin={{ vertical: "top", horizontal: "right" }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >

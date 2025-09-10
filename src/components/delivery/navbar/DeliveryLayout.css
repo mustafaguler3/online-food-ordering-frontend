@@ -1,0 +1,40 @@
+/* Genel layout */
+.delivery-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.delivery-sidebar {
+  width: 240px;
+  background-color: #1f2937;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* Sağ taraf */
+.delivery-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar */
+.delivery-topbar {
+  height: 60px;
+  background-color: #2563eb;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* İçerik */
+.delivery-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9fafb;
+}

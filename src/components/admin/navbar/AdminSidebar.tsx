@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 import {
   faChartLine,
   faList,
@@ -6,6 +7,7 @@ import {
   faShoppingBag,
   faCreditCard,
   faPerson,
+  fa3,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -36,6 +38,17 @@ const AdminSidebar = () => {
             >
               <FontAwesomeIcon icon={faList} />
               <span>Categories</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/restaurants"
+              className={
+                location.pathname.includes("/admin/restaurants") ? "active" : ""
+              }
+            >
+              <FontAwesomeIcon icon={fa3} size="2x" />
+              <span>Restaurants</span>
             </NavLink>
           </li>
           <li>

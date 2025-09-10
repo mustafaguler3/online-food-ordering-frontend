@@ -5,6 +5,9 @@ export interface Order {
     orderDate: Date
     totalAmount: number
     orderStatus: any
+    menuId: number
+    deliveryPersonName: string
+    deliveryPersonId: number
     paymentStatus: any
     user: User
     orderItems: OrderItem[]
@@ -15,6 +18,7 @@ export interface OrderItem {
     quantity: number
     menuId: number
     menu: any
+    restaurant: any
     pricePerUnit: number
     subtotal: number 
 }

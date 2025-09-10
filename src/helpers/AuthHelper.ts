@@ -21,6 +21,13 @@ export class AuthHelper {
     return roles ? JSON.parse(roles) : null;
   }
 
+  static getRole(): string | null {
+    const roles = localStorage.getItem("roles");
+    if(!roles) return null;
+    const parsed = JSON.parse(roles);
+    return Array.isArray(parsed) ? parsed[0] : parsed;
+  }
+
   static hadRole(role: string): boolean {
     const roles = this.getRoles();
     return roles ? roles.includes(role) : false;

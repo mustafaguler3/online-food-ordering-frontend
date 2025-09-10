@@ -14,7 +14,8 @@ const orderService = {
     return axiosClient.get("/orders/all", { params });
   },
   getOrderById: (id: any) => axiosClient.get(`/orders/${id}`),
-  updateOrderStatus: (body:any) => axiosClient.put(`/orders/update`,body)
+  updateOrderStatus: (body:any) => axiosClient.put(`/orders/update`,body),
+  countTotalActiveCustomers: () => axiosClient.get("/orders/unique-customers")
 };
 
 
