@@ -47,6 +47,9 @@ const DeliveryAssignedOrdersPage = () => {
             o.id === orderId ? { ...o, orderStatus: newStatus } : o
           )
         );
+        if (newStatus === "ON_THE_WAY") {
+          await deliveryService.locationStart(orderId)
+        }
       } else {
         setError(response.message || "Failed to update status");
       }

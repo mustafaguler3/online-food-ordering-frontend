@@ -31,7 +31,7 @@ export const DeliverySidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/delivery/completed"
+            to="/delivery/orders/delivered"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             <CheckCircleIcon /> Delivered Orders

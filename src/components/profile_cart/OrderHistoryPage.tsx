@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
-import ApiService from "../../services/ApiService";
 import ClipLoader from "react-spinners/ClipLoader";
 import orderService from "../../services/orderService";
+import "./OrderHistoryPage.css"
+import { Order } from "../../models/Order";
+import OrderTrackingPage from "./OrderTrackingPage";
 
 const OrderHistoryPage = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
@@ -94,8 +96,8 @@ const OrderHistoryPage = () => {
       <ErrorDisplay />
       <h1 className="order-history-title">Your Order History</h1>
       <div className="order-list">
-        {orders.map((order) => (
-          <div key={order.id} className="order-card">
+        {orders?.map((order) => (
+          <div key={order?.id} className="order-card">
             <div className="order-header">
               <span className="order-id">Order ID: {order.id}</span>
               <span className="order-date">
@@ -113,7 +115,8 @@ const OrderHistoryPage = () => {
             </div>
             <div className="order-items">
               <h2 className="order-items-title">Order Items:</h2>
-              {order.orderItems.map((item) => (
+
+              {order?.orderItems.map((item) => (
                 <div key={item.id} className="order-item">
                   <div className="item-details">
                     <span className="item-name">{item.menu.name}</span>
@@ -127,7 +130,7 @@ const OrderHistoryPage = () => {
                       Subtotal: ${item.subtotal.toFixed(2)}
                     </span>
                     {order.orderStatus.toLowerCase() === "delivered" &&
-                      !item.hasReview && (
+                       (
                         <button
                           className="review-button"
                           onClick={() =>
@@ -148,9 +151,11 @@ const OrderHistoryPage = () => {
                 </div>
               ))}
             </div>
+            <OrderTrackingPage orderId={order.id}/>
           </div>
         ))}
       </div>
+
     </div>
   );
 };

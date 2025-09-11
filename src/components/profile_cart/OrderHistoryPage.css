@@ -1,0 +1,35 @@
+
+.status-initialized {
+  background: gray;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-confirmed {
+  background: green;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-on-the-way {
+  background: orange; /* warning tarzı */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-delivered {
+  background: blue;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-cancelled {
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}

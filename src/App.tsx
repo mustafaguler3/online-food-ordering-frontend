@@ -40,6 +40,9 @@ import { useEffect, useState } from "react";
 import DeliveryAssignedOrdersPapge from "./components/delivery/DeliveryAssignedOrdersPage";
 import DeliveryAssignedOrdersPage from "./components/delivery/DeliveryAssignedOrdersPage";
 import AdminDeliveriesPage from "./components/admin/AdminDeliveriesPage";
+import 'leaflet/dist/leaflet.css';
+import DeliveryDeliveredOrdersPage from "./components/delivery/DeliveryDeliveredOrdersPage";
+
 
 function App() {
   const isAuthenticated = AuthHelper.isAuthenticated()
@@ -105,6 +108,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 >
+                  <Route path="orders/delivered" element={<DeliveryDeliveredOrdersPage/>}/>
                   <Route index element={<DeliveryDashboardPage />} />
                   <Route path="orders/assigned" element={<DeliveryAssignedOrdersPage/>}/>
                 </Route>

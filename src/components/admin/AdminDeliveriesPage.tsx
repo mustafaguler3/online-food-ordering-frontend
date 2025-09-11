@@ -44,8 +44,8 @@ const AdminDeliveriesPage = () => {
           </tr>
         </thead>
         <tbody>
-          {deliveries.map((delivery) => (
-            <tr>
+          {deliveries.map((delivery:any) => (
+            <tr id={delivery.id}>
               <td>{delivery.id}</td>
               <td>{delivery.user.name}</td>
               <td>{delivery.user.email}</td>

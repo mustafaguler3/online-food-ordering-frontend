@@ -1,4 +1,6 @@
 import { DeliveryPerson } from "./DeliveryPerson"
+import { Menu } from "./Menu"
+import { Restaurant } from "./Restaurant"
 import { User } from "./User"
 
 export interface Order {
@@ -18,8 +20,9 @@ export interface OrderItem {
     id: number
     quantity: number
     menuId: number
-    menu: any
-    restaurant: any
+    name: string
+    menu: Menu
+    restaurant: Restaurant
     pricePerUnit: number
     subtotal: number 
 }
