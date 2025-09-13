@@ -10,7 +10,6 @@ import { Card, Spinner } from "react-bootstrap";
 import deliveryService from "../../services/deliveryService";
 
 // Kurye iconu
-// Kurye iconu
 const deliveryIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [50, 50],
@@ -38,7 +37,7 @@ const OrderTrackingPage = ({ orderId }: Props) => {
     };
 
     fetchLocation();
-    const interval = setInterval(fetchLocation, 5000); // her 5 saniyede güncelle
+    const interval = setInterval(fetchLocation, 5000);
 
     return () => clearInterval(interval);
   }, [orderId]);

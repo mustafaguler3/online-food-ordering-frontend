@@ -14,35 +14,35 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-} from "@mui/material"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import PersonIcon from "@mui/icons-material/Person"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
-import CreditCardIcon from "@mui/icons-material/CreditCard"
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import PersonIcon from "@mui/icons-material/Person";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 const DeliveryDeliveredOrdersPage = () => {
-    const [deliveredOrder, setDeliveredOrder] = useState<Order[]>([])
-    const [error, setError] = useState();
+  const [deliveredOrder, setDeliveredOrder] = useState<Order[]>([]);
+  const [error, setError] = useState();
 
-    useEffect(() => {
-        const fetchDeliveredOrders = async () => {
-            try {
-                const response = await deliveryService.deliveredOrders();
-                if (response.statusCode === 200) {
-                    setDeliveredOrder(response.data)
-                    setError(null)
-                }else {
-                    setError(response?.message)
-                }
-            }catch(err) {
-                setError(err?.message)
-            }
+  useEffect(() => {
+    const fetchDeliveredOrders = async () => {
+      try {
+        const response = await deliveryService.deliveredOrders();
+        if (response.statusCode === 200) {
+          setDeliveredOrder(response.data);
+          setError(null);
+        } else {
+          setError(response?.message);
         }
-        fetchDeliveredOrders();
-    },[])
+      } catch (err) {
+        setError(err?.message);
+      }
+    };
+    fetchDeliveredOrders();
+  }, []);
 
-    return (
-        <Box sx={{ p: 4 }}>
+  return (
+    <Box sx={{ p: 4 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         📦 Delivered orders
       </Typography>
@@ -50,14 +50,19 @@ const DeliveryDeliveredOrdersPage = () => {
       {error && <Alert severity="error">{error}</Alert>}
 
       {deliveredOrder.length === 0 && !error && (
-        <Typography color="text.secondary">
-          No delivered orders
-        </Typography>
+        <Typography color="text.secondary">No delivered orders</Typography>
       )}
 
-      <Grid  spacing={3} marginTop={2}>
+      <Grid spacing={3} marginTop={2}>
         {deliveredOrder.map((order) => (
-          <Grid item xs={12} md={6} lg={4} key={order.id} component={"div" as any}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            lg={4}
+            key={order.id}
+            component={"div" as any}
+          >
             <Card
               sx={{
                 borderRadius: 3,
@@ -94,7 +99,8 @@ const DeliveryDeliveredOrdersPage = () => {
                 <Box display="flex" alignItems="center" gap={1} mb={1}>
                   <CalendarTodayIcon fontSize="small" color="action" />
                   <Typography>
-                    Order Date: {new Date(order.orderDate).toLocaleString("tr-TR")}
+                    Order Date:{" "}
+                    {new Date(order.orderDate).toLocaleString("tr-TR")}
                   </Typography>
                 </Box>
 
@@ -135,7 +141,7 @@ const DeliveryDeliveredOrdersPage = () => {
         ))}
       </Grid>
     </Box>
-    )
-}
+  );
+};
 
 export default DeliveryDeliveredOrdersPage;

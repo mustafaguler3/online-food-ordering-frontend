@@ -42,6 +42,7 @@ import DeliveryAssignedOrdersPage from "./components/delivery/DeliveryAssignedOr
 import AdminDeliveriesPage from "./components/admin/AdminDeliveriesPage";
 import 'leaflet/dist/leaflet.css';
 import DeliveryDeliveredOrdersPage from "./components/delivery/DeliveryDeliveredOrdersPage";
+import OrderDetailPage from "./components/profile_cart/OrderDetailPage";
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
                   path="/my-order-history"
                   element={<OrderHistoryPage />}
                 />
+                <Route path="/order/:id" element={<OrderDetailPage/>}/>
                 <Route path="/leave-review" element={<LeaveReviewPage />} />
 
                 {/* CUSTOMER protected routes */}

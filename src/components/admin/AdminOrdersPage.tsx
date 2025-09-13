@@ -131,14 +131,10 @@ const AdminOrdersPage = () => {
               </TableCell>
               <TableCell>
                 <Chip
-                  label={
-                    order.orderStatus === "DELIVERED"
-                      ? "PAID"
-                      : order.paymentStatus
+                  label={order.paymentStatus
                   }
                   color={
-                    order.orderStatus === "DELIVERED" ||
-                    order.paymentStatus === "PAID"
+                    order.paymentStatus === "COMPLETED"
                       ? "success"
                       : "warning"
                   }

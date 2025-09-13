@@ -35,7 +35,7 @@ const PaymentForm = ({ amount, orderId, onSuccess }) => {
         amount: amount,
         orderId: orderId,
       };
-      const paymentInitilizeResponse: any = await paymentService.proceedForPayment(body);
+      const paymentInitilizeResponse = await paymentService.proceedForPayment(body);
 
       if (paymentInitilizeResponse.statusCode !== 200) {
         throw new Error(

@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import ClipLoader from "react-spinners/ClipLoader";
 import orderService from "../../services/orderService";
 import "./OrderHistoryPage.css"
 import { Order } from "../../models/Order";
 import OrderTrackingPage from "./OrderTrackingPage";
+import DeliveryTrackingPage from "../delivery/DeliveryTrackingPage";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -61,6 +62,10 @@ const OrderHistoryPage = () => {
     };
     return date.toLocaleDateString(undefined, options);
   };
+
+  const handleOrderDetail = (id: any) => {
+    navigate("/order/"+id)
+  }
 
   const handleLeaveReview = (orderId, menuId) => {
     navigate(`/leave-review?orderId=${orderId}&menuId=${menuId}`);
@@ -142,16 +147,18 @@ const OrderHistoryPage = () => {
                       )}
                   </div>
                   <div className="item-image-container">
-                    <img
-                      src={item.menu.imageUrl}
-                      alt={item.menu.name}
-                      className="item-image"
-                    />
+                    
+<Link to={`/order/${order.id}`}>
+  <img
+    src={item.menu.imageUrl}
+    alt={item.menu.name}
+    className="item-image"
+  />
+</Link>
                   </div>
                 </div>
               ))}
             </div>
-            <OrderTrackingPage orderId={order.id}/>
           </div>
         ))}
       </div>

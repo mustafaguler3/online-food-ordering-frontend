@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import Payment from "./Payment";
+import paymentService from "../../services/paymentService";
 
 const ProcessPaymentPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,24 +18,20 @@ const ProcessPaymentPage = () => {
   });
 
   useEffect(() => {
-    const orderId = searchParams.get("orderid");
-    const amount:any = searchParams.get("amount");
+  const orderId = searchParams.get("orderId");
+  const amountStr = searchParams.get("amount");
 
-    if (!orderId || !amount) {
-      showError("Missing order information in URL");
-      return;
-    }
+  if (!orderId || !amountStr) {
+    showError("Missing order information in URL");
+    return;
+  }
 
-    if (isNaN(amount)) {
-      showError("Invalid amount specified");
-      return;
-    }
+  setOrderDetails({
+    orderId,
+    amount: Number(amountStr),
+  });
+}, [searchParams]);
 
-    setOrderDetails({
-      orderId: orderId,
-      amount: amount,
-    });
-  }, [searchParams]);
 
   const handlePaymentSuccess = () => {
     setPaymentCompleted(true);
@@ -42,6 +39,7 @@ const ProcessPaymentPage = () => {
       navigate("/my-order-history");
     }, 8000);
   };
+  
 
   if (paymentCompleted) {
     return (
