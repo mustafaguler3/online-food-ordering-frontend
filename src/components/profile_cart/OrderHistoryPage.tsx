@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import ClipLoader from "react-spinners/ClipLoader";
 import orderService from "../../services/orderService";
-import "./OrderHistoryPage.css"
+import "./OrderHistoryPage.css";
 import { Order } from "../../models/Order";
 import OrderTrackingPage from "./OrderTrackingPage";
 import DeliveryTrackingPage from "../delivery/DeliveryTrackingPage";
@@ -18,14 +18,16 @@ const OrderHistoryPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await orderService.getMyOrders()
+        const response = await orderService.getMyOrders();
         const enhancedOrders = [];
         console.log("Response order : ", response.data);
         for (const order of response.data) {
           const enhancedItems = [];
           console.log("Response order data: ", order);
           for (const item of order.orderItems) {
-            const itemResponse: any = await orderService.getOrderItemById(item.id);
+            const itemResponse: any = await orderService.getOrderItemById(
+              item.id
+            );
             if (itemResponse.statusCode === 200) {
               enhancedItems.push({
                 ...item,
@@ -53,7 +55,7 @@ const OrderHistoryPage = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options:any = {
+    const options: any = {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -64,8 +66,8 @@ const OrderHistoryPage = () => {
   };
 
   const handleOrderDetail = (id: any) => {
-    navigate("/order/"+id)
-  }
+    navigate("/order/" + id);
+  };
 
   const handleLeaveReview = (orderId, menuId) => {
     navigate(`/leave-review?orderId=${orderId}&menuId=${menuId}`);
@@ -134,27 +136,25 @@ const OrderHistoryPage = () => {
                     <span className="subtotal">
                       Subtotal: ${item.subtotal.toFixed(2)}
                     </span>
-                    {order.orderStatus.toLowerCase() === "delivered" &&
-                       (
-                        <button
-                          className="review-button"
-                          onClick={() =>
-                            handleLeaveReview(order.id, item.menu.id)
-                          }
-                        >
-                          Leave Review
-                        </button>
-                      )}
+                    {order.orderStatus.toLowerCase() === "delivered" && (
+                      <button
+                        className="review-button"
+                        onClick={() =>
+                          handleLeaveReview(order.id, item.menu.id)
+                        }
+                      >
+                        Leave Review
+                      </button>
+                    )}
                   </div>
                   <div className="item-image-container">
-                    
-<Link to={`/order/${order.id}`}>
-  <img
-    src={item.menu.imageUrl}
-    alt={item.menu.name}
-    className="item-image"
-  />
-</Link>
+                    <Link to={`/order/${order.id}`}>
+                      <img
+                        src={item.menu.imageUrl}
+                        alt={item.menu.name}
+                        className="item-image"
+                      />
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -162,7 +162,6 @@ const OrderHistoryPage = () => {
           </div>
         ))}
       </div>
-
     </div>
   );
 };

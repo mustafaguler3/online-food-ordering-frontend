@@ -1,3 +1,4 @@
+import { Address } from "./Address"
 import { DeliveryPerson } from "./DeliveryPerson"
 import { Menu } from "./Menu"
 import { Restaurant } from "./Restaurant"
@@ -10,7 +11,9 @@ export interface Order {
     orderStatus: any
     menuId: number
     orderCode: string
+    deliveryAddress: Address
     deliveryPerson: DeliveryPerson
+    restaurant: Restaurant
     paymentStatus: any
     user: User
     orderItems: OrderItem[]

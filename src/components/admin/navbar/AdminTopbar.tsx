@@ -37,6 +37,10 @@ const AdminTopbar = () => {
     document.querySelector(".admin-sidebar").classList.toggle("active");
   };
 
+  const clickOnImage = () => {
+    navigate("/profile")
+  }
+  
   return (
     <header className="admin-topbar">
       <div className="topbar-left">
@@ -49,6 +53,7 @@ const AdminTopbar = () => {
       <div className="topbar-right">
         <div className="user-profile">
           <img
+          onClick={clickOnImage}
             src={`http://localhost:8081`+userProfile?.profileUrl}
             alt="User Profile"
             className="profile-image"

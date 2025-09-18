@@ -14,11 +14,12 @@ import {
 } from "@mui/material";
 import orderService from "../../services/orderService";
 import { formatDate } from "../../utils/dateUtils";
-import GoogleMapTracker from "../GoogleMapTracker";
+import { Order } from "../../models/Order";
+import OrderTrackingPage from "./OrderTrackingPage";
 
 const OrderDetail = () => {
   const { id } = useParams<{ id: any }>();
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<Order>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,19 +46,35 @@ const OrderDetail = () => {
 
   if (!order) return <Typography variant="h6">Order not found</Typography>;
 
-  const getStatusColor = (status: string) => {
+  // Order status için renk fonksiyonu
+  const getOrderStatusColor = (status: string) => {
+    switch (status) {
+      case "PENDING":
+        return "warning"; // turuncu
+      case "ON_THE_WAY":
+        return "info"; // mavi
+      case "DELIVERED":
+        return "success"; // yeşil
+      case "CANCELLED":
+        return "error"; // kırmızı
+      default:
+        return "default"; // gri
+    }
+  };
+
+  // Payment status için renk fonksiyonu
+  const getPaymentStatusColor = (status: string) => {
     switch (status) {
       case "PENDING":
         return "warning";
-      case "DELIVERED":
+      case "COMPLETED":
         return "success";
-      case "CANCELLED":
+      case "FAILED":
         return "error";
       default:
         return "default";
     }
   };
-
   return (
     <Box p={4}>
       <Card sx={{ borderRadius: 3, boxShadow: 4 }}>
@@ -70,13 +87,13 @@ const OrderDetail = () => {
           {/* Order Summary */}
           <Box mb={3}>
             <Typography variant="body1" gutterBottom>
-              <strong>Date:</strong> {formatDate(order.orderDate)}
+              <strong>Date:</strong> {formatDate(order.orderDate.toString())}
             </Typography>
             <Typography variant="body1" gutterBottom>
               <strong>Status:</strong>{" "}
               <Chip
                 label={order.orderStatus}
-                color={getStatusColor(order.orderStatus)}
+                color={getOrderStatusColor(order.orderStatus)}
                 size="small"
               />
             </Typography>
@@ -84,7 +101,12 @@ const OrderDetail = () => {
               <strong>Total:</strong> ${order.totalAmount.toFixed(2)}
             </Typography>
             <Typography variant="body1">
-              <strong>Payment:</strong> {order.paymentStatus}
+              <strong>Payment:</strong>
+              <Chip
+                label={order.paymentStatus}
+                color={getPaymentStatusColor(order.paymentStatus)}
+                size="small"
+              />
             </Typography>
           </Box>
 
@@ -149,10 +171,9 @@ const OrderDetail = () => {
             Delivery Tracking
           </Typography>
           {order.deliveryPerson ? (
-            <GoogleMapTracker
-              lat={order.deliveryPerson.currentLat ?? 40.7128}
-              lng={order.deliveryPerson.currentLng ?? -74.006}
-            />
+            <>
+              <OrderTrackingPage orderId={order.id} />
+            </>
           ) : (
             <Typography variant="body2" color="text.secondary">
               Delivery person not assigned yet.

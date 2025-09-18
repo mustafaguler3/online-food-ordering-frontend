@@ -48,7 +48,10 @@ const DeliveryAssignedOrdersPage = () => {
           )
         );
         if (newStatus === "ON_THE_WAY") {
-          await deliveryService.locationStart(orderId)
+          const order = orders.find((o) => o.id === orderId);
+          if (order && order.restaurant) {
+            await deliveryService.startLocation(order.id)
+          }
         }
       } else {
         setError(response.message || "Failed to update status");
@@ -67,7 +70,7 @@ const DeliveryAssignedOrdersPage = () => {
   }
 
   return (
-    <Grid  spacing={3} sx={{ p: 4 }}>
+    <Grid spacing={3} sx={{ p: 4 }}>
       {error ? <h1 className="alert alert-danger">{error}</h1> : ""}
 
       {orders.map((order) => (
@@ -84,7 +87,12 @@ const DeliveryAssignedOrdersPage = () => {
                   Order #{order.orderCode}
                 </Typography>
                 <Box display="flex" gap={1}>
-                  <Chip label={order.orderStatus} color={ order.orderStatus === "DELIVERED" ? "success" : "primary" } />
+                  <Chip
+                    label={order.orderStatus}
+                    color={
+                      order.orderStatus === "DELIVERED" ? "success" : "primary"
+                    }
+                  />
                   <Chip label={order.paymentStatus} color="secondary" />
                 </Box>
               </Box>
@@ -126,7 +134,7 @@ const DeliveryAssignedOrdersPage = () => {
               {/* Delivery Person */}
               <Box mb={2}>
                 <Typography>
-                  <strong>Delivery Name:</strong> 
+                  <strong>Delivery Name:</strong>
                 </Typography>
               </Box>
 
@@ -177,19 +185,21 @@ const DeliveryAssignedOrdersPage = () => {
 
           <Box display="flex" justifyContent="flex-end" gap={2} mt={2}>
             {order.orderStatus === "ASSIGNED" && (
-              <Button 
-              variant="contained"
-              color="primary"
-              onClick={() => handleStatusChange(order.id,"ON_THE_WAY")}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleStatusChange(order.id, "ON_THE_WAY")}
+              >
                 Start Delivery
               </Button>
             )}
 
             {order.orderStatus === "ON_THE_WAY" && (
               <Button
-              variant="contained"
-              color="success"
-              onClick={() => handleStatusChange(order.id,"DELIVERED")}>
+                variant="contained"
+                color="success"
+                onClick={() => handleStatusChange(order.id, "DELIVERED")}
+              >
                 Mark as Delivered
               </Button>
             )}
