@@ -44,10 +44,10 @@ const MenuDetailsPage = () => {
           const ratingResponse: any =
             await reviewService.getMenuAverageOverallReview(id);
 
-            console.log("average "+ratingResponse)
+          console.log("average " + ratingResponse);
           if (ratingResponse.statusCode === 200) {
             setAverageRating(ratingResponse);
-            console.log("average "+ratingResponse.data.averageRating)
+            console.log("average " + ratingResponse.data.averageRating);
           }
         } else {
           showError(response);
@@ -77,7 +77,7 @@ const MenuDetailsPage = () => {
       });
       if (response.statusCode === 200) {
         setCartSuccess(true);
-        await fetchCart()
+        await fetchCart();
         toast.success(`${menu.name} added successfully!`, {
           position: "bottom-right",
           autoClose: 2000,
@@ -105,7 +105,7 @@ const MenuDetailsPage = () => {
         {/* Menu Image */}
         <Box sx={{ flex: 1 }}>
           <img
-            src={`/${menu.imageUrl}`}
+            src={`http://localhost:8081/uploads/menu/${menu.imageUrl}`}
             alt={menu.name}
             style={{ width: "100%", borderRadius: 8 }}
           />
@@ -123,17 +123,19 @@ const MenuDetailsPage = () => {
             <Typography variant="h5" color="primary">
               ${menu.price.toFixed(2)}
             </Typography>
-            
-<Stack direction="row" alignItems="center" spacing={1}>
-  <Rating
-    name="average-rating"
-    value={menu.averageRating}  // backend’den gelen double
-    precision={0.1}           // 0.1 ile daha hassas yarım yıldız
-    readOnly
-    sx={{ color: "#FFD700" }}  // sarı renk
-  />
-  <Typography variant="body2">{menu.averageRating.toFixed(1)}</Typography>
-</Stack>
+
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Rating
+                name="average-rating"
+                value={menu.averageRating} // backend’den gelen double
+                precision={0.1} // 0.1 ile daha hassas yarım yıldız
+                readOnly
+                sx={{ color: "#FFD700" }} // sarı renk
+              />
+              <Typography variant="body2">
+                {menu.averageRating.toFixed(1)}
+              </Typography>
+            </Stack>
 
             <Typography variant="body2">
               ({menu.reviews?.length || 0} reviews)
@@ -161,8 +163,6 @@ const MenuDetailsPage = () => {
               Add to Cart
             </Button>
           </Stack>
-
-        
         </Box>
       </Stack>
 

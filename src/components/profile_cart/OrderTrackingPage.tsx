@@ -49,7 +49,7 @@ export default function OrderTrackingPage({ orderId }: { orderId: number }) {
       <Marker position={courierPos} icon={courierIcon}>
         <Popup>🚴 Delivery is here!</Popup>
       </Marker>
-      <Polyline positions={route} color="blue" weight={4} />
+      <Polyline positions={route} color="blue" weight={5} />
     </MapContainer>
   );
 }

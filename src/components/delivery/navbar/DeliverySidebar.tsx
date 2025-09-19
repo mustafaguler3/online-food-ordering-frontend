@@ -5,6 +5,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { AuthHelper } from "../../../helpers/AuthHelper";
 import "./DeliverySidebar.css";
+import PersonIcon from '@mui/icons-material/Person';
 
 export const DeliverySidebar = () => {
   const navigate = useNavigate();
@@ -21,6 +22,15 @@ export const DeliverySidebar = () => {
     <div className="delivery-sidebar">
       <h2>🛵 Delivery Panel</h2>
       <ul>
+        <li>
+          <NavLink
+            end
+            to="/delivery"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            <PersonIcon /> Dashboard
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/delivery/orders/assigned"

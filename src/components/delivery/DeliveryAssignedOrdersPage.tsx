@@ -47,12 +47,7 @@ const DeliveryAssignedOrdersPage = () => {
             o.id === orderId ? { ...o, orderStatus: newStatus } : o
           )
         );
-        if (newStatus === "ON_THE_WAY") {
-          const order = orders.find((o) => o.id === orderId);
-          if (order && order.restaurant) {
-            await deliveryService.startLocation(order.id)
-          }
-        }
+        
       } else {
         setError(response.message || "Failed to update status");
       }
@@ -106,7 +101,7 @@ const DeliveryAssignedOrdersPage = () => {
               {/* User Info */}
               <Box display="flex" alignItems="center" gap={2} mb={3}>
                 <Avatar
-                  src={order.user.profileUrl}
+                  src={`http://localhost:8081`+order.user.profileUrl}
                   alt={order.user.name}
                   sx={{ width: 70, height: 70 }}
                 />
@@ -124,7 +119,7 @@ const DeliveryAssignedOrdersPage = () => {
                     <strong>Phone:</strong> {order.user.phoneNumber}
                   </Typography>
                   <Typography>
-                    <strong>Address:</strong> {order.user.address}
+                    <strong>Address:</strong> {order.deliveryAddress.street}
                   </Typography>
                 </Box>
               </Box>
@@ -160,7 +155,7 @@ const DeliveryAssignedOrdersPage = () => {
                 >
                   <Box display="flex" alignItems="center" gap={2}>
                     <Avatar
-                      src={item.menu.imageUrl}
+                      src={`http://localhost:8081/uploads/menu/`+item.menu.imageUrl}
                       alt={item.menu.name}
                       variant="rounded"
                       sx={{ width: 56, height: 56 }}

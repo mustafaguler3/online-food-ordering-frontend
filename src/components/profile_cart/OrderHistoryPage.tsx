@@ -6,8 +6,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import orderService from "../../services/orderService";
 import "./OrderHistoryPage.css";
 import { Order } from "../../models/Order";
-import OrderTrackingPage from "./OrderTrackingPage";
-import DeliveryTrackingPage from "../delivery/DeliveryTrackingPage";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -150,7 +148,7 @@ const OrderHistoryPage = () => {
                   <div className="item-image-container">
                     <Link to={`/order/${order.id}`}>
                       <img
-                        src={item.menu.imageUrl}
+                        src={`http://localhost:8081/uploads/menu/` +item.menu.imageUrl}
                         alt={item.menu.name}
                         className="item-image"
                       />

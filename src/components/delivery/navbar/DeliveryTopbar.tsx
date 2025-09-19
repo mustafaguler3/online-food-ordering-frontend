@@ -10,7 +10,7 @@ import { User } from "../../../models/User";
 
 export const DeliveryTopbar = () => {
   const [userProfile, setUserProfile] = useState<User | null>(null);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
@@ -33,6 +33,10 @@ export const DeliveryTopbar = () => {
     window.location.href = "/login"; // we reload page & direct login page
   };
 
+  const clickOnImage = () => {
+    navigate("/profile")
+  }
+
   const toggleSidebar = () => {
     document.querySelector(".admin-sidebar").classList.toggle("active");
   };
@@ -49,6 +53,7 @@ export const DeliveryTopbar = () => {
       <div className="topbar-right">
         <div className="user-profile">
           <img
+            onClick={clickOnImage}
             src={`http://localhost:8081` + userProfile?.profileUrl}
             alt="User Profile"
             className="profile-image"

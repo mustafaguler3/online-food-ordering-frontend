@@ -66,7 +66,7 @@ const MenuPage = () => {
             onClick={() => navigate(`/menus/${item.id}`)}
           >
             <img
-              src={process.env.PUBLIC_URL + item.imageUrl}
+              src={`http://localhost:8081/uploads/menu/` + item.imageUrl}
               alt={item.name}
               className="menu-img"
             />

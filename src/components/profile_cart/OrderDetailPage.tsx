@@ -46,23 +46,21 @@ const OrderDetail = () => {
 
   if (!order) return <Typography variant="h6">Order not found</Typography>;
 
-  // Order status için renk fonksiyonu
   const getOrderStatusColor = (status: string) => {
     switch (status) {
       case "PENDING":
-        return "warning"; // turuncu
+        return "warning";
       case "ON_THE_WAY":
-        return "info"; // mavi
+        return "info";
       case "DELIVERED":
-        return "success"; // yeşil
+        return "success";
       case "CANCELLED":
-        return "error"; // kırmızı
+        return "error";
       default:
-        return "default"; // gri
+        return "default";
     }
   };
 
-  // Payment status için renk fonksiyonu
   const getPaymentStatusColor = (status: string) => {
     switch (status) {
       case "PENDING":
@@ -131,7 +129,9 @@ const OrderDetail = () => {
                 }}
               >
                 <Avatar
-                  src={item.menu.imageUrl}
+                  src={
+                    `http://localhost:8081/uploads/menu/` + item.menu.imageUrl
+                  }
                   alt={item.menu.name}
                   sx={{ width: 70, height: 70, borderRadius: 2, mr: 2 }}
                 />
@@ -151,7 +151,7 @@ const OrderDetail = () => {
                   <Button
                     variant="contained"
                     size="small"
-                    color="primary"
+                    color="success"
                     sx={{ ml: 2 }}
                     onClick={() =>
                       console.log("Leave review", order.id, item.menu.id)
@@ -167,12 +167,15 @@ const OrderDetail = () => {
           <Divider sx={{ mb: 3 }} />
 
           {/* Order Tracking */}
-          <Typography variant="h6" gutterBottom>
-            Delivery Tracking
-          </Typography>
           {order.deliveryPerson ? (
             <>
-              <OrderTrackingPage orderId={order.id} />
+              {order.orderStatus !== "DELIVERED" ? (
+                <OrderTrackingPage orderId={order.id} />
+              ) : (
+                <Typography variant="h6" gutterBottom>
+                  Delivery Tracking
+                </Typography>
+              )}
             </>
           ) : (
             <Typography variant="body2" color="text.secondary">

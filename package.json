@@ -39,6 +39,7 @@
     "react-scripts": "^5.0.1",
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
+    "recharts": "^3.2.1",
     "sockjs-client": "^1.6.1",
     "web-vitals": "^2.1.4",
     "yup": "^1.7.0"
