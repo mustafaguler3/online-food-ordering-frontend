@@ -6,7 +6,7 @@ import { Category } from "../../models/Category";
 import { useError } from "../common/ErrorDisplay";
 import { Restaurant } from "../../models/Restaurant";
 import restaurantService from "../../services/restaurantService";
-import "./HomePage.css"
+//import "./HomePage.css"
 
 const HomePage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
