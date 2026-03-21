@@ -98,7 +98,7 @@ const CartPage = () => {
           <Paper key={item.id} sx={{ p: 2, display: "flex", gap: 2, alignItems: "center" }}>
             <Box
               component="img"
-              src={item.menu.imageUrl}
+              src={`http://localhost:8081/uploads/menu/`+item.menu.imageUrl}
               alt={item.menu.name}
               sx={{ width: 100, height: 100, borderRadius: 1, objectFit: "cover" }}
             />

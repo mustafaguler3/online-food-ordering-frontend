@@ -4,31 +4,37 @@ import { useNavigate } from "react-router-dom";
 import categoryService from "../../services/categoryService";
 import { Category } from "../../models/Category";
 import { useError } from "../common/ErrorDisplay";
+import { Restaurant } from "../../models/Restaurant";
+import restaurantService from "../../services/restaurantService";
+import "./HomePage.css"
 
 const HomePage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [restaurants,setRestaurants] = useState<Restaurant[]>([]);
+
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response: any = await categoryService.getCategories();
-        if (response.statusCode === 200) {
-          setCategories(response.data);
-        } else {
-          showError(response.statusText);
-        }
-      } catch (error: any) {
-        showError(error.response?.data?.message || error.message);
-      }
-    };
+    const fetchData = async () => {
+    try {
+      const catRes: any = await categoryService.getCategories();
+      if (catRes.statusCode === 200) setCategories(catRes.data);
 
-    fetchCategories();
+      const restRes: any = await restaurantService.getRestaurants();
+      if (restRes.statusCode === 200) setRestaurants(restRes.data);
+    } catch (error: any) {
+      showError(error.response?.data?.message || error.message);
+    }
+  };
+  fetchData()
   }, []);
 
   const handleCategoryClick = (categoryId: number) => {
     navigate(`/menus?categoryId=${categoryId}`);
+  };
+  const handleRestaurantClick = (restaurantId: number) => {
+    navigate(`/menus?restaurantId=${restaurantId}`);
   };
 
   return (
@@ -79,6 +85,7 @@ const HomePage = () => {
           </button>
         </div>
       </section>
+
     </div>
   );
 };

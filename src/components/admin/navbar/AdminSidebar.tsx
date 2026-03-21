@@ -22,6 +22,7 @@ const AdminSidebar = () => {
         <ul>
           <li>
             <NavLink
+              end
               to="/admin"
               className={location.pathname === "/admin" ? "active" : ""}>
               <FontAwesomeIcon icon={faChartLine} />

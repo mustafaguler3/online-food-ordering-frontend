@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: food-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../backend/.env.dev
+    depends_on:
+      - mysql
+      - redis
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: food-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    depends_on:
+      - backend
