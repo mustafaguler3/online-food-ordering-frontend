@@ -28,7 +28,7 @@ const HomePage = () => {
     }
   };
   fetchData()
-  }, []);
+  }, [showError]);
 
   const handleCategoryClick = (categoryId: number) => {
     navigate(`/menus?categoryId=${categoryId}`);
