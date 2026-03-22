@@ -1,157 +1,82 @@
+# 🥗 FoodApp Frontend
 
-# FoodApp Frontend
+![React](https://img.shields.io/badge/React-18.x-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![Netlify](https://img.shields.io/badge/Netlify-Deployed-00ADBB)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-Ready-38B2AC)
+
+FoodApp Frontend is a modern **React + TypeScript** Single Page Application (SPA) designed for a seamless food ordering experience. It provides a responsive interface for customers to browse menus and an integrated admin panel for management.
+
+---
 
 ## 📌 Project Overview
 
-FoodApp Frontend is a React + TypeScript Single Page Application (SPA) for a food ordering system.It supports:
+The application is built with performance and type-safety in mind:
 
-- Menu and category browsing
-- Cart and order management
-- Admin panel functionalities
-- Stripe-based payments
-- JWT authentication for users
+- 🛒 **Ordering Flow:** Smooth menu browsing, cart management, and checkout.
+- 🔐 **Authentication:** Secure user login and registration using JWT.
+- 🛡️ **Guards:** Protected routes for Admin and User roles.
+- 💳 **Payments:** Integrated with Stripe for secure transactions.
+- 📱 **Responsive:** Fully optimized for Desktop, Tablet, and Mobile devices.
 
-This project connects to the FoodApp backend API and provides a responsive interface for both customers and admins.
+---
 
 ## 🛠 Technology Stack
 
-- **React 18 + TypeScript**
-- **React Router DOM**
-- **Axios** for API requests
-- **Context API + Hooks** for state management
-- **ESLint + Prettier** for code quality
-- **Netlify** for production deployment
-- **GitHub Actions** for CI/CD pipeline
+* **Core:** React 18, TypeScript.
+* **Routing:** React Router DOM.
+* **State Management:** Context API + Custom Hooks.
+* **Data Fetching:** Axios.
+* **Styling:** CSS Modules / Tailwind (Responsive Design).
+* **Deployment:** Netlify with CI/CD.
+
+---
 
 ## ⚙️ Setup and Development
 
-### 1. Clone Repository
+### 1. Clone the Repository
 
 1 - git clone `<frontend-repo-url>`
 2 - cd food-react
 3 - npm install
 
+**2. Install Dependencies**
 
-### **2. Run Locally**
+npm install
 
-****npm start**
-**This will start the app at [http://localhost:3000](http://localhost:3000)
+### 3. Environment Variables
 
+Create a `.env.dev` file for local development:
 
-### **3. Environment Variables**
-
-Create **.env.dev** for development:
-
-**REACT_APP_API_URL=http://localhost:8080/api
+REACT_APP_API_URL=http://localhost:8080/api
 REACT_APP_MENU=http://localhost:8080/uploads/menu/
-**
+
+Create a `.env.prod` for production:
+
+REACT_APP_API_URL=[https://online-food-ordering-system-1-m18j.onrender.com/api](https://online-food-ordering-system-1-m18j.onrender.com/api)
+REACT_APP_MENU=[https://online-food-ordering-system-1-m18j.onrender.com/uploads/menu/](https://online-food-ordering-system-1-m18j.onrender.com/uploads/menu/)
+
+**4. Run Locally**
+
+npm start
+
+The app will be available at `http://localhost:3000`.
+
+## 🚀 Deployment
+
+### Netlify Deployment
+
+1. Connect your GitHub repository to  **Netlify** .
+2. **Build Command:** `npm run build`
+3. **Publish Directory:** `build/`
+4. Add environment variables in the Netlify dashboard.
+
+📂 Folder Structure
+
+![1774180654765](image/README/1774180654765.png)
 
 
-Create **.env.prod** for production:
+## 🔗 Quick Links
 
-REACT_APP_API_URL=https://online-food-ordering-system-1-m18j.onrender.com/api
-REACT_APP_MENU=https://online-food-ordering-system-1-m18j.onrender.com/uploads/menu/
-
-
-### **4. Build**
-
-npm run build
-
-This generates a production-ready build in the **build/** folder.
-
-
-## **🚀 Deployment**
-
-### **Netlify Deployment**
-
-* Create a new site on Netlify and connect your GitHub repository.
-* Set the build command: **npm run build**
-* Set the publish directory: **build/**
-* Add environment variables from **.env.prod** in Netlify dashboard
-* Netlify will automatically build and deploy your app
-
-**Important:** Since this is a SPA, configure redirects so that all routes point to **index.html**.
-
-Use a _redirects** file or **netlify.toml**:**
-
-
-### **CI/CD via GitHub Actions**
-
-* Optional: Automate build and deploy using GitHub Actions
-* Trigger on **main** or **feature/ci-cd** branch
-* Steps:
-  1. Checkout code
-  2. Install dependencies **npm install**
-  3. **Run tests **npm run test
-  4. **Build **npm run build
-  5. Deploy to Netlify (can use Netlify CLI or API)
-
-
-## **🧪 Testing**
-
-* Run tests locally:
-
-npm run test
-
-
-## **🔑 Notes**
-
-* Ensure that all environment variables are set correctly for the current environment.
-* Clean up unused variables and React hook warnings to avoid build failures on Netlify.
-* This project uses React SPA routing; proper redirect configuration is required in production hosting.
-
-* ESLint and TypeScript checks are enforced during build; unused variables or missing hook dependencies can fail the build.
-
-
-
-## **📂 Folder Structure**
-
-food-react/
-
-**├── **public**/**
-
-├── src/
-
-│ **  **├── components/
-
-│ **  **├── context/
-
-│ **  **├── guards/
-
-│ **  **├── helpers/
-
-│ **  **├── models/
-
-│ **  **├── utils/
-
-│ **  **├── services/
-
-│ **  **├── hooks/
-
-│ **  **├── App.tsx
-
-│ **  **└── index.tsx
-
-├── .env.dev
-
-├── .env.prod
-
-├── **package**.json
-
-├── tsconfig.json
-
-└── README.md
-
-
-**ScreenShots**
-
-![1774178566177](image/README/1774178566177.png)
-
-![1774178528960](image/README/1774178528960.png)
-
-![1774178547167](image/README/1774178547167.png)
-
-
-**Frontend -> https://online-food-app-react.netlify.app/**
-
-**Backend -> https://github.com/mustafaguler3/online-food-ordering-system.git**
+* **Live Demo:** [Netlify App](https://online-food-app-react.netlify.app/home)
+* **Backend Repository:** [GitHub - food-backend](https://github.com/mustafaguler3/online-food-ordering-system)
