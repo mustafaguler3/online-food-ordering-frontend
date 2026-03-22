@@ -40,7 +40,7 @@ const MenuPage = () => {
     };
 
     fetchMenus();
-  }, [location.search]);
+  }, [location.search,showError]);
 
   const filteredMenus = menus.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()),
