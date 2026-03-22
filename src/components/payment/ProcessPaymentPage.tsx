@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import Payment from "./Payment";
-import paymentService from "../../services/paymentService";
 
 const ProcessPaymentPage = () => {
   const [searchParams] = useSearchParams();

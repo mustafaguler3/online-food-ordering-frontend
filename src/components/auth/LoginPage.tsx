@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -26,8 +26,8 @@ const LoginPage = () => {
   const { fetchCart } = useCart();
   const { ErrorDisplay, showError } = useError();
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const redirectPath = state?.from?.pathname || "/home";
+  //const { state } = useLocation();
+  //const redirectPath = state?.from?.pathname || "/home";
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 

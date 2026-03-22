@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import menuService from "../../services/menuService";
 import { Rating, Stack, Typography } from "@mui/material";
@@ -8,8 +8,6 @@ import { Rating, Stack, Typography } from "@mui/material";
 const MenuPage = () => {
   const [menus, setMenus] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [averageRating, setAverageRating] = useState(0.0);
-  const { id } = useParams();
   const location = window.location;
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
@@ -20,10 +18,13 @@ const MenuPage = () => {
         const urlParams = new URLSearchParams(location.search);
         const categoryId = urlParams.get("categoryId");
         const search = urlParams.get("search");
-        
+
         let response;
         if (categoryId || search) {
-          response = await menuService.getAllMenuByCategoryId(categoryId, search);
+          response = await menuService.getAllMenuByCategoryId(
+            categoryId,
+            search,
+          );
         } else {
           response = await menuService.getMenus();
         }
@@ -42,7 +43,7 @@ const MenuPage = () => {
   }, [location.search]);
 
   const filteredMenus = menus.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -76,19 +77,24 @@ const MenuPage = () => {
               <div className="card-footer">
                 <span className="price">${item.price.toFixed(2)}</span>
                 {/* Rating göster */}
-          
 
-<Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
-      <Rating
-        name={`menu-rating-${item.id}`}
-        value={item.averageRating}   
-        precision={0.1}               
-        readOnly
-        sx={{ color: "#FFD700" }}  
-      />
-      <Typography variant="body2">{item.averageRating.toFixed(1)}</Typography>
-    </Stack>
-
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ mt: 1 }}
+                >
+                  <Rating
+                    name={`menu-rating-${item.id}`}
+                    value={item.averageRating}
+                    precision={0.1}
+                    readOnly
+                    sx={{ color: "#FFD700" }}
+                  />
+                  <Typography variant="body2">
+                    {item.averageRating.toFixed(1)}
+                  </Typography>
+                </Stack>
               </div>
             </div>
           </div>

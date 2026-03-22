@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Box,
@@ -28,9 +28,9 @@ const MenuDetailsPage = () => {
   const { fetchCart } = useCart();
   const navigate = useNavigate();
   const [menu, setMenu] = useState<Menu>(null);
-  const [averageRating, setAverageRating] = useState(0);
+  const [setAverageRating] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [cartSuccess, setCartSuccess] = useState(false);
+  const [ setCartSuccess] = useState(false);
 
   const isAuthenticated = AuthHelper.isAuthenticated();
   const { ErrorDisplay, showError } = useError();
