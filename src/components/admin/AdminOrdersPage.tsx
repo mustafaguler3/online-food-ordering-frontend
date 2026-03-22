@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import orderService from "../../services/orderService";
@@ -32,7 +32,7 @@ const AdminOrdersPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState();
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number | null>(
-    null
+    null,
   );
   const [deliveryUsers, setDeliveryUsers] = useState<DeliveryPerson[]>([]);
   const [error, setError] = useState();
@@ -40,14 +40,10 @@ const AdminOrdersPage = () => {
   const { showError } = useError();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchOrders();
-  }, [filter]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const response: any = await orderService.getOrders(
-        filter === "all" ? null : filter
+        filter === "all" ? null : filter,
       );
 
       if (response.statusCode === 200) {
@@ -56,7 +52,11 @@ const AdminOrdersPage = () => {
     } catch (error: any) {
       showError(error.response?.data?.message || error.message);
     }
-  };
+  }, [filter,showError]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const openAssignModal = (orderId: any) => {
     setSelectedOrderId(orderId);
@@ -82,8 +82,7 @@ const AdminOrdersPage = () => {
 
   if (error) {
     return (
-      <>
-      {error ? <h1 className="alert alert-warning">{error}</h1> : null}</>
+      <>{error ? <h1 className="alert alert-warning">{error}</h1> : null}</>
     );
   }
 
@@ -123,19 +122,16 @@ const AdminOrdersPage = () => {
                     order.orderStatus === "DELIVERED"
                       ? "success"
                       : order.orderStatus === "ON_THE_WAY"
-                      ? "info"
-                      : "default"
+                        ? "info"
+                        : "default"
                   }
                 />
               </TableCell>
               <TableCell>
                 <Chip
-                  label={order.paymentStatus
-                  }
+                  label={order.paymentStatus}
                   color={
-                    order.paymentStatus === "COMPLETED"
-                      ? "success"
-                      : "warning"
+                    order.paymentStatus === "COMPLETED" ? "success" : "warning"
                   }
                 />
               </TableCell>
@@ -190,7 +186,8 @@ const AdminOrdersPage = () => {
                   fontSize="small"
                   sx={{ color: user.hasActiveOrder ? "red" : "green", mr: 1 }}
                 />
-                {user.user.name} {user.hasActiveOrder ? "(Busy)" : "(Available)"}
+                {user.user.name}{" "}
+                {user.hasActiveOrder ? "(Busy)" : "(Available)"}
               </MenuItem>
             ))}
           </Select>
