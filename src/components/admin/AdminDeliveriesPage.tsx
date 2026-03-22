@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import adminService from "../../services/adminService";
-import { User } from "../../models/User";
 import { DeliveryPerson } from "../../models/DeliveryPerson";
 
 const AdminDeliveriesPage = () => {

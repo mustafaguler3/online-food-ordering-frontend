@@ -4,7 +4,6 @@ import { useError } from "../common/ErrorDisplay";
 import orderService from "../../services/orderService";
 import { Order } from "../../models/Order";
 import adminService from "../../services/adminService";
-import { User } from "../../models/User";
 import { toast } from "react-toastify";
 import {
   Button,
@@ -29,7 +28,7 @@ import { DeliveryPerson } from "../../models/DeliveryPerson";
 
 const AdminOrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [filter, setFilter] = useState("all");
+  const [filter] = useState("all");
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState();
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number | null>(
@@ -38,7 +37,7 @@ const AdminOrdersPage = () => {
   const [deliveryUsers, setDeliveryUsers] = useState<DeliveryPerson[]>([]);
   const [error, setError] = useState();
 
-  const { ErrorDisplay, showError } = useError();
+  const { showError } = useError();
   const navigate = useNavigate();
 
   useEffect(() => {

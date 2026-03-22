@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useError } from "../common/ErrorDisplay";
 import ClipLoader from "react-spinners/ClipLoader";
 import orderService from "../../services/orderService";
-import "./OrderHistoryPage.css";
+//import "./OrderHistoryPage.css";
 import { Order } from "../../models/Order";
 
 const OrderHistoryPage = () => {
@@ -63,9 +63,9 @@ const OrderHistoryPage = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
-  const handleOrderDetail = (id: any) => {
+  /*const handleOrderDetail = (id: any) => {
     navigate("/order/" + id);
-  };
+  }; */
 
   const handleLeaveReview = (orderId, menuId) => {
     navigate(`/leave-review?orderId=${orderId}&menuId=${menuId}`);

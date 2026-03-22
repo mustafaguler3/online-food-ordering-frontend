@@ -2,7 +2,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { cartService } from "../services/cartService";
 import { useUser } from "./UserContext";
-import { AuthHelper } from "../helpers/AuthHelper";
 
 interface CartContextType {
   cart: any | null;

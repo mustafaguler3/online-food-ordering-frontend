@@ -17,7 +17,7 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [fetchCart]);
 
   const handleCheckout = async () => {
     try {
