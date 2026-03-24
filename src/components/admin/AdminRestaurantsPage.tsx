@@ -29,9 +29,8 @@ const AdminRestaurantsPage = () => {
   return (
     <div className="admin-page">
       <h1 className="page-title">Restaurants</h1>
-
       {error && <div className="alert-error">{error}</div>}
-
+      
       <div className="table-wrapper">
         <table className="restaurants-table">
           <thead>
