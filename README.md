@@ -88,5 +88,6 @@ The app will be available at `http://localhost:3000`.
 ## 🔗 Quick Links
 
 ```m
-b
+🌐 [Live Demo](https://online-food-app-react.netlify.app/home)
+💻 [Backend Repo](https://github.com/mustafaguler3/online-food-ordering-system)
 ```
