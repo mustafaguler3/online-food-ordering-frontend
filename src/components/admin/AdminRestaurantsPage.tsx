@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import restaurantService from "../../services/restaurantService";
 import { Restaurant } from "../../models/Restaurant";
 
-
 const AdminRestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -26,10 +25,13 @@ const AdminRestaurantsPage = () => {
     fetchRestaurants();
   }, []);
 
+  if (restaurants.length === 0) {
+    return <h1 className="alert alert-danger">No records</h1>;
+  }
+  
   return (
     <div className="admin-page">
       <h1 className="page-title">Restaurants</h1>
-
       {error && <div className="alert-error">{error}</div>}
 
       <div className="table-wrapper">
@@ -57,7 +59,9 @@ const AdminRestaurantsPage = () => {
                 <td>{restaurant.name}</td>
                 <td>{restaurant.address}</td>
                 <td>{restaurant.phone}</td>
-                <td>{restaurant.rating ? restaurant.rating.toFixed(1) : 0} ★</td>
+                <td>
+                  {restaurant.rating ? restaurant.rating.toFixed(1) : 0} ★
+                </td>
                 <td>
                   <button
                     className="edit-btn"

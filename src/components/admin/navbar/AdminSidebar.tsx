@@ -9,6 +9,7 @@ import {
   fa3,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./AdminSidebar.css";
 
 const AdminSidebar = () => {
   const location = useLocation();

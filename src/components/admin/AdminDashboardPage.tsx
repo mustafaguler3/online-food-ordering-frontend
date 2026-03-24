@@ -26,12 +26,10 @@ const AdminDashboardPage = () => {
 
   useEffect(() => {
     fetchDashboardData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      // Fetch all necessary data from backend
       const ordersResponse:any = await orderService.getOrders();
       const menuResponse:any = await menuService.getMenus();
       const paymentsResponse:any = await paymentService.getPayments();
@@ -140,7 +138,6 @@ const AdminDashboardPage = () => {
     ],
   };
 
-  //Orders destributin chart preparation and arrangements
   const statusChartData = {
     labels: Object.keys(stats.orderStatusDistribution),
     datasets: [
