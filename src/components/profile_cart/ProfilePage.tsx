@@ -100,9 +100,10 @@ const ProfilePage = () => {
           >
             Edit Profile
           </Button>
-          <Button variant="outlined" color="primary" onClick={handleViewOrders}>
+          {user.role === "USER" && (
+            <Button variant="outlined" color="primary" onClick={handleViewOrders}>
             View Orders
-          </Button>
+          </Button>)}
         </Stack>
       </Paper>
     </Container>
