@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "../profile_cart/UpdateProfile.css";
+//import "../profile_cart/UpdateProfile.css";
 import { useError } from "../common/ErrorDisplay";
 import userService from "../../services/userService";
 import { AuthHelper } from "../../helpers/AuthHelper";
 import { useUser } from "../../context/UserContext";
 
 const UpdateProfilePage = () => {
-  const { user,setUser,fetchUser } = useUser();
+  const { setUser } = useUser();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -39,7 +39,7 @@ const UpdateProfilePage = () => {
       }
     };
     fetchProfile();
-  }, []);
+  }, [showError]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

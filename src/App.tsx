@@ -36,8 +36,6 @@ import ProtectedRoute from "./guards/ProtectedRoute";
 import DeliveryDashboardPage from "./components/delivery/DeliveryDashboardPage";
 import { DeliveryLayout } from "./components/delivery/navbar/DeliveryLayout";
 import { AuthHelper } from "./helpers/AuthHelper";
-import { useEffect, useState } from "react";
-import DeliveryAssignedOrdersPapge from "./components/delivery/DeliveryAssignedOrdersPage";
 import DeliveryAssignedOrdersPage from "./components/delivery/DeliveryAssignedOrdersPage";
 import AdminDeliveriesPage from "./components/admin/AdminDeliveriesPage";
 import 'leaflet/dist/leaflet.css';
@@ -48,8 +46,6 @@ import OrderDetailPage from "./components/profile_cart/OrderDetailPage";
 function App() {
   const isAuthenticated = AuthHelper.isAuthenticated()
   const isCustomer = AuthHelper.isCustomer()
-  const isAdmin = AuthHelper.isAdmin();
-  const isDelivery = AuthHelper.isDeliveryPerson();
 
   return (
     <UserProvider>

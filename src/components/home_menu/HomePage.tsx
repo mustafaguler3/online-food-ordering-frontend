@@ -10,7 +10,7 @@ import restaurantService from "../../services/restaurantService";
 
 const HomePage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [restaurants,setRestaurants] = useState<Restaurant[]>([]);
+  const [setRestaurants] = useState<Restaurant[]>([]);
 
   const navigate = useNavigate();
   const { ErrorDisplay, showError } = useError();
@@ -28,14 +28,14 @@ const HomePage = () => {
     }
   };
   fetchData()
-  }, []);
+  }, [showError]);
 
   const handleCategoryClick = (categoryId: number) => {
     navigate(`/menus?categoryId=${categoryId}`);
   };
-  const handleRestaurantClick = (restaurantId: number) => {
+  /*const handleRestaurantClick = (restaurantId: number) => {
     navigate(`/menus?restaurantId=${restaurantId}`);
-  };
+  }; */
 
   return (
     <div className="home-page">
