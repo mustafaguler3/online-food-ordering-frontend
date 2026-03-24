@@ -36,29 +36,39 @@ The application is built with performance and type-safety in mind:
 
 ### 1. Clone the Repository
 
-1 - git clone `<frontend-repo-url>`
-2 - cd food-react
-3 - npm install
+```
+git clone `<repo>`
+cd food-react
+npm install
+```
 
 **2. Install Dependencies**
 
-npm install
+```bash
+npm start
+```
 
 ### 3. Environment Variables
 
 Create a `.env.dev` file for local development:
 
+```env
 REACT_APP_API_URL=http://localhost:8080/api
 REACT_APP_MENU=http://localhost:8080/uploads/menu/
+```
 
 Create a `.env.prod` for production:
 
+```
 REACT_APP_API_URL=[https://online-food-ordering-system-1-m18j.onrender.com/api](https://online-food-ordering-system-1-m18j.onrender.com/api)
 REACT_APP_MENU=[https://online-food-ordering-system-1-m18j.onrender.com/uploads/menu/](https://online-food-ordering-system-1-m18j.onrender.com/uploads/menu/)
+```
 
 **4. Run Locally**
 
+```npm
 npm start
+```
 
 The app will be available at `http://localhost:3000`.
 
@@ -67,7 +77,7 @@ The app will be available at `http://localhost:3000`.
 ### Netlify Deployment
 
 1. Connect your GitHub repository to  **Netlify** .
-2. **Build Command:** `npm run build`
+2. **Build Command:**`npm run build `
 3. **Publish Directory:** `build/`
 4. Add environment variables in the Netlify dashboard.
 
@@ -75,8 +85,9 @@ The app will be available at `http://localhost:3000`.
 
 ![1774180654765](image/README/1774180654765.png)
 
-
 ## 🔗 Quick Links
 
+```m
 * **Live Demo:** [Netlify App](https://online-food-app-react.netlify.app/home)
 * **Backend Repository:** [GitHub - food-backend](https://github.com/mustafaguler3/online-food-ordering-system)
+```
