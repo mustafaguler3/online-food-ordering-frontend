@@ -1,0 +1,8 @@
+.admin-sidebar ul li a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
