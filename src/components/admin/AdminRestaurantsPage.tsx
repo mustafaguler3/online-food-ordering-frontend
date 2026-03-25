@@ -8,9 +8,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const AdminRestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { ErrorDisplay, showError } = useError();
+  const { ErrorDisplay } = useError();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -18,12 +17,11 @@ const AdminRestaurantsPage = () => {
         const response: any = await restaurantService.getRestaurants();
         if (response.statusCode === 200) {
           setRestaurants(response.data);
-          setError(null);
         } else {
-          setError(response.message || "Failed to fetch restaurants");
+          <ErrorDisplay />;
         }
       } catch (err: any) {
-        setError(err.message || "Something went wrong");
+        <ErrorDisplay />;
       }
     };
     fetchRestaurants();
