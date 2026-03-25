@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import restaurantService from "../../services/restaurantService";
 import { Restaurant } from "../../models/Restaurant";
+import { useError } from "../common/ErrorDisplay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const AdminRestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { ErrorDisplay, showError } = useError();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -25,15 +29,21 @@ const AdminRestaurantsPage = () => {
     fetchRestaurants();
   }, []);
 
-  if (restaurants.length === 0) {
-    return <h1 className="alert alert-danger">No records</h1>;
-  }
-  
-  return (
-    <div className="admin-page">
-      <h1 className="page-title">Restaurants</h1>
-      {error && <div className="alert-error">{error}</div>}
+  const handleAddRestaurant = () => {
+    navigate("/admin/restaurant/new");
+  };
 
+
+  return (
+    <div className="admin-restaurants">
+      <ErrorDisplay />
+      <div className="content-header">
+        <h1>Restaurants</h1>
+        <button className="add-btn" onClick={handleAddRestaurant}>
+          <FontAwesomeIcon icon={faPlus} /> Add Restaurant
+        </button>
+      </div>
+    
       <div className="table-wrapper">
         <table className="restaurants-table">
           <thead>
